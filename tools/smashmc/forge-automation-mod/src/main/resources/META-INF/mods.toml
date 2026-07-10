@@ -1,0 +1,25 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="MIT"
+
+[[mods]]
+modId="smashmc_automation"
+version="${file.jarVersion}"
+displayName="SmashMC Automation"
+description='''
+Tiny localhost bridge for exporting SmashMC learnsets from a real Forge client.
+'''
+
+[[dependencies.smashmc_automation]]
+modId="forge"
+mandatory=true
+versionRange="[36.2.35,)"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.smashmc_automation]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.16.5]"
+ordering="NONE"
+side="CLIENT"

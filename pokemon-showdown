@@ -27,7 +27,7 @@ var cli = null;
 
 function build() {
 	if (cli.values['skip-build']) return;
-	require('child_process').execSync('node build', {stdio: 'inherit', cwd: __dirname});
+	require('child_process').execSync('node build.js', {stdio: 'inherit', cwd: __dirname});
 }
 
 function readTeam(stream) {

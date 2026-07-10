@@ -340,7 +340,11 @@ export class ServerStream extends Streams.ObjectReadWriteStream<string> {
 			const roomidRegex = /^\/(?:[A-Za-z0-9][A-Za-z0-9-]*)\/?$/;
 			const cssServer = new StaticServer('./config');
 			const avatarServer = new StaticServer('./config/avatars');
-			const staticServer = new StaticServer('./server/static');
+			const fallbackStaticServer = new StaticServer('./server/static');
+			const staticServer = new StaticServer('./client/play.pokemonshowdown.com', {
+				indexFile: 'index-old.html',
+				cacheTime: 0,
+			});
 			const staticRequestHandler = (req: http.IncomingMessage, res: http.ServerResponse) => {
 				// console.log(`static rq: ${req.socket.remoteAddress}:${req.socket.remotePort} -> ${req.socket.localAddress}:${req.socket.localPort} - ${req.method} ${req.url} ${req.httpVersion} - ${req.rawHeaders.join('|')}`);
 				req.resume();
@@ -363,7 +367,7 @@ export class ServerStream extends Streams.ObjectReadWriteStream<string> {
 
 					void server.serve(req, res, e => {
 						if (e.status === 404) {
-							void staticServer.serveFile('404.html', 404, {}, req, res);
+							void fallbackStaticServer.serveFile('404.html', 404, {}, req, res);
 							return true;
 						}
 					});

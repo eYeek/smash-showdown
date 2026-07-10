@@ -1,99 +1,112 @@
-Pokémon Showdown
-========================================================================
+# Smash Showdown
 
-Navigation: [Website][1] | **Server repository** | [Client repository][2] | [Dex repository][3]
+Smash Showdown is a Pokemon Showdown fork for SmashMC custom Pokemon and formats.
 
-  [1]: http://pokemonshowdown.com/
-  [2]: https://github.com/smogon/pokemon-showdown-client
-  [3]: https://github.com/Zarel/Pokemon-Showdown-Dex
+The goal is to keep upstream Pokemon Showdown as intact as possible while adding a separate SmashMC data layer on top of it. Vanilla Gen 9 data is not replaced. SmashMC Pokemon, learnsets, sprites, custom moves, Mega forms, and formats live in isolated generated files.
 
-[![Build Status](https://github.com/smogon/pokemon-showdown/workflows/Node.js%20CI/badge.svg)](https://github.com/smogon/pokemon-showdown/actions?query=workflow%3A%22Node.js+CI%22)
-[![Dependency Status](https://img.shields.io/librariesio/github/smogon/pokemon-showdown)](https://libraries.io/github/smogon/pokemon-showdown)
+## Current Status
 
+- Vanilla Pokemon Showdown server and client run locally.
+- SmashMC Pokemon are integrated into the teambuilder and battle engine data.
+- Custom sprites are downloaded and served locally.
+- Minecraft-exported learnsets are merged into generated Showdown learnsets.
+- Smash OU and Smash Ubers formats are available.
+- Smash OU allows one custom SmashMC OU/UU Pokemon.
+- Smash Ubers allows one custom SmashMC Uber Pokemon plus one custom SmashMC OU/UU Pokemon.
+- Missing-data reports currently show no missing learnsets, tiers, or move metadata.
 
-Introduction
-------------------------------------------------------------------------
+## Project Layout
 
-Pokémon Showdown is many things:
+- `data/smashmc/custom_pokemon.json` - source SmashMC Pokemon export.
+- `data/smashmc/learnsets.json` - Minecraft `/movelist` learnset export.
+- `data/smashmc/smash_database.json` - normalized generated SmashMC database.
+- `data/mods/gen9smashmc/` - generated Showdown mod data.
+- `client/play.pokemonshowdown.com/sprites/smashmc/` - local custom sprites served by the client.
+- `tools/smashmc/` - SmashMC exporter, importer, database builder, and automation tools.
+- `config/custom-formats.ts` - SmashMC battle formats.
 
-- A **website** you can use for Pokémon battling
+## Data Pipeline
 
-  - http://pokemonshowdown.com/
+```text
+Discord export
+  -> data/smashmc/custom_pokemon.json
 
-- A **JavaScript library** for simulating Pokémon battles and getting Pokédex data
+Minecraft /movelist export
+  -> data/smashmc/learnsets.json
 
-  - [sim/README.md](./sim/README.md)
+python -m tools.smashmc.build_database
+  -> data/smashmc/smash_database.json
+  -> data/mods/gen9smashmc/*
+  -> client/play.pokemonshowdown.com/data/*
+  -> client/play.pokemonshowdown.com/sprites/smashmc/*
+```
 
-- Some **command-line tools** for simulating Pokémon battles (which can be used in non-JavaScript programs)
+## Local Development
 
-  - [COMMANDLINE.md](./COMMANDLINE.md)
+Install dependencies:
 
-- A **web API** for the web site for Pokémon battling
+```sh
+npm install
+```
 
-  - [pokemon-showdown-client: WEB-API.md](https://github.com/smogon/pokemon-showdown-client/blob/master/WEB-API.md)
+Build:
 
-- A **game server** for hosting your own Pokémon Showdown community and game modes
+```sh
+npm run build
+```
 
-  - [server/README.md](./server/README.md)
+Start the server:
 
-Pokémon Showdown simulates singles, doubles and triples battles in all the games out so far (Generations 1 through 9).
+```sh
+npm start
+```
 
+Open:
 
-Documentation quick links
-------------------------------------------------------------------------
+```text
+http://localhost:8000
+```
 
-* [PROTOCOL.md][4] - How the client and server communicate with each other.
-* [sim/SIM-PROTOCOL.md][5] - The part of the protocol used for battles and battle messages.
-* [CONTRIBUTING.md][6] - Useful code standards to understand if you want to send pull requests to PS (not necessary if you're just using the code and not planning to contribute back).
-* [ARCHITECTURE.md][7] - A high-level overview of how the code works.
-* [Bot FAQ][8] - An FAQ compiled by Kaiepi regarding making Pokemon Showdown bots - mainly chatbots and battle bots.
+## Useful Checks
 
-  [4]: ./PROTOCOL.md
-  [5]: ./sim/SIM-PROTOCOL.md
-  [6]: ./CONTRIBUTING.md
-  [7]: ./ARCHITECTURE.md
-  [8]: https://gist.github.com/Kaiepi/becc5d0ecd576f5e7733b57b4e3fa97e
+```sh
+npx tsc --noEmit --pretty false
+npx mocha test/sim/smashmc-moves.js --timeout 8000
+npx mocha test/tools/smashmc-search-index.js --timeout 8000
+```
 
+Check generated-data reports:
 
-Community
-------------------------------------------------------------------------
+- `data/smashmc/missing_learnsets.json`
+- `data/smashmc/missing_tiers.json`
+- `data/smashmc/missing_move_metadata.json`
 
-PS has a built-in chat service. Join our main server to talk to us!
+All three should have `"count": 0` before publishing.
 
-You can also visit the [Pokémon Showdown forums][9] for discussion and help.
+## Deployment
 
-  [9]: https://www.smogon.com/forums/forums/pok%C3%A9mon-showdown.209/
+Smash Showdown is a live Node.js/WebSocket app, not a static site. Cloudflare Pages alone is not enough for the server. The recommended first deployment target is Render Web Services.
 
-If you'd like to contribute to programming and don't know where to start, feel free to check out [Ideas for New Developers][10].
+Render settings:
 
-  [10]: https://github.com/smogon/pokemon-showdown/issues/2444
+- Build command: `npm ci && npm run build`
+- Start command: `npm start`
+- Runtime: Node.js 22 or newer
+- Port: use Render's `PORT` environment variable, which Pokemon Showdown reads through its cloud environment support.
 
+This repo includes `render.yaml` for a first Render deployment.
 
-License
-------------------------------------------------------------------------
+## Sensitive Files
 
-Pokémon Showdown's server is distributed under the terms of the [MIT License][11].
+Do not publish local credentials or probe logs.
 
-  [11]: ./LICENSE
+Ignored paths include:
 
+- `data/smashmc/auth/`
+- `data/smashmc/*probe*.log`
+- `.codex-server-*.log`
+- `tools/smashmc/forge-automation-mod/build/`
 
-Credits
-------------------------------------------------------------------------
+## Upstream
 
-Owner
-
-- Guangcong Luo [Zarel] - Development, Design, Sysadmin
-
-Staff
-
-- Andrew Werner [HoeenHero] - Development
-- Annika L. [Annika] - Development
-- Chris Monsanto [chaos] - Development, Sysadmin
-- Kris Johnson [dhelmise] - Development
-- Leonard Craft III [DaWoblefet] - Research (game mechanics)
-- Mathieu Dias-Martins [Marty-D] - Research (game mechanics), Development
-- Mia A [Cassiopeia] - Development
-
-Contributors
-
-- See http://pokemonshowdown.com/credits
+Smash Showdown is based on Pokemon Showdown, which is distributed under the MIT License. Upstream copyright and license notices are preserved.

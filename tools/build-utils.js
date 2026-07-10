@@ -5,12 +5,15 @@ const child_process = require("child_process");
 const esbuild = require('esbuild');
 
 const copyOverDataJSON = (file = 'data') => {
+	if (file.replace(/\\/g, '/') === 'data/smashmc/auth') return;
 	const files = fs.readdirSync(file);
 	for (const f of files) {
 		if (fs.statSync(`${file}/${f}`).isDirectory()) {
 			copyOverDataJSON(`${file}/${f}`);
 		} else if (f.endsWith('.json')) {
-			fs.copyFileSync(`${file}/${f}`, require('path').resolve('dist', `${file}/${f}`));
+			const target = require('path').resolve('dist', `${file}/${f}`);
+			fs.mkdirSync(require('path').dirname(target), {recursive: true});
+			fs.copyFileSync(`${file}/${f}`, target);
 		}
 	}
 };

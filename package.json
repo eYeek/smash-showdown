@@ -1,6 +1,6 @@
 {
-  "name": "pokemon-showdown",
-  "description": "The server for the Pokémon Showdown battle simulator",
+  "name": "smash-showdown",
+  "description": "A Pokemon Showdown fork for SmashMC custom Pokemon and formats",
   "version": "0.11.10",
   "main": "dist/sim/index.js",
   "types": "dist/sim/index.d.ts",
@@ -32,9 +32,9 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "start": "node pokemon-showdown start",
-    "build": "node build",
-    "build-npm": "node build && npx tsc sim/global-types.ts sim/index.ts --declaration --emitDeclarationOnly --declarationDir dist/ --target es2020 --strict --moduleResolution node --types node --lib es2020",
+    "start": "node pokemon-showdown start --skip-build",
+    "build": "node build.js",
+    "build-npm": "node build.js && npx tsc sim/global-types.ts sim/index.ts --declaration --emitDeclarationOnly --declarationDir dist/ --target es2020 --strict --moduleResolution node --types node --lib es2020",
     "test-npm": "npx tsc sim/global-types.ts sim/index.ts --noEmit --target es2020 --strict --moduleResolution node --types node --lib es2020",
     "tsc": "tsc",
     "lint": "eslint --cache",
@@ -47,10 +47,10 @@
     "full-test-ci": "eslint --max-warnings 0 && tsc && (([ \"$SKIPSIMTESTS\" = true ] && mocha --timeout 8000 --forbid-only -g \".*\" --exclude \"test/{sim,random-battles}/**\") || mocha --timeout 8000 --forbid-only -g \".*\") && npm run test-npm"
   },
   "bin": "./pokemon-showdown",
-  "homepage": "http://pokemonshowdown.com",
+  "homepage": "https://smashshowdown.onrender.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/smogon/pokemon-showdown.git"
+    "url": "https://github.com/eYeek/smash-showdown.git"
   },
   "author": {
     "name": "Guangcong Luo",

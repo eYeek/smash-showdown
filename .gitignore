@@ -4,11 +4,16 @@
 /test/modlogs
 /test/replays/*.html
 /node_modules
+client/node_modules/
+client/caches/
+client/.git-local-backup/
+/.tools/
 /eslint-cache
 /server/chat-plugins/private
 /server/chat-plugins/private.js
 /server/chat-plugins/*-private.js
 npm-debug.log
+.codex-server-*.log
 .eslintcache
 .eslintcache-no-types
 /tools/set-import/sets
@@ -49,6 +54,13 @@ tmp/**/*
 
 downloads
 dist
+data/smashmc/auth/
+data/smashmc/assets/
+data/smashmc/*probe*.log
+exported data from discord custom pokemon/
+tools/smashmc/forge-automation-mod/.gradle/
+tools/smashmc/forge-automation-mod/build/
+__pycache__/
 
 # egg related
 develop-eggs

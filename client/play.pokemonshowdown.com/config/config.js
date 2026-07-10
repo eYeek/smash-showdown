@@ -1,0 +1,26 @@
+window.Config = {
+	version: 'smash-local',
+	sockjsprefix: '/showdown',
+	bannedHosts: [],
+	whitelist: [],
+	routes: {
+		root: 'localhost:8000',
+		client: 'localhost:8000',
+		assets: 'play.pokemonshowdown.com',
+		dex: 'dex.pokemonshowdown.com',
+		replays: 'replay.pokemonshowdown.com',
+		users: 'pokemonshowdown.com/users',
+		teams: 'teams.pokemonshowdown.com',
+	},
+	defaultserver: {
+		id: 'smashshowdown',
+		host: 'localhost',
+		port: 8000,
+		httpport: 8000,
+		altport: 8000,
+		protocol: 'http',
+		prefix: '/showdown',
+		registered: false,
+	},
+	customcolors: {},
+};
