@@ -1,26 +1,33 @@
-window.Config = {
-	version: 'smash-local',
-	sockjsprefix: '/showdown',
-	bannedHosts: [],
-	whitelist: [],
-	routes: {
-		root: 'localhost:8000',
-		client: 'localhost:8000',
-		assets: 'play.pokemonshowdown.com',
-		dex: 'dex.pokemonshowdown.com',
-		replays: 'replay.pokemonshowdown.com',
-		users: 'pokemonshowdown.com/users',
-		teams: 'teams.pokemonshowdown.com',
-	},
-	defaultserver: {
-		id: 'smashshowdown',
-		host: 'localhost',
-		port: 8000,
-		httpport: 8000,
-		altport: 8000,
-		protocol: 'http',
-		prefix: '/showdown',
-		registered: false,
-	},
-	customcolors: {},
-};
+(() => {
+	const local = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+	const host = location.host || 'localhost:8000';
+	const protocol = local ? 'http' : 'https';
+	const port = local ? Number(location.port || 8000) : 443;
+
+	window.Config = {
+		version: 'smash-public',
+		sockjsprefix: '/showdown',
+		bannedHosts: [],
+		whitelist: [],
+		routes: {
+			root: host,
+			client: host,
+			assets: 'play.pokemonshowdown.com',
+			dex: 'dex.pokemonshowdown.com',
+			replays: 'replay.pokemonshowdown.com',
+			users: 'pokemonshowdown.com/users',
+			teams: 'teams.pokemonshowdown.com',
+		},
+		defaultserver: {
+			id: 'smashshowdown',
+			host: location.hostname || 'localhost',
+			port,
+			httpport: port,
+			altport: port,
+			protocol,
+			prefix: '/showdown',
+			registered: false,
+		},
+		customcolors: {},
+	};
+})();
