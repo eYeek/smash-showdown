@@ -178,7 +178,7 @@ def teambuilder_overlay(entries: list[dict[str, Any]]) -> str:
         f"var smashPokemonTiers = {js(tiers)};",
         f"var smashTierOrder = {js(SMASH_TIER_ORDER)};",
         f"var smashLearnsets = {js(learnsets)};",
-        "var smashTables = [exports.BattleTeambuilderTable];",
+        "var smashTables = [exports.BattleTeambuilderTable, exports.BattleTeambuilderTable.gen9natdex];",
         "for (const table of smashTables) {",
         "\tif (!table) continue;",
         "\tif (!table.overrideTier) table.overrideTier = {};",
