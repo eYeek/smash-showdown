@@ -34,6 +34,11 @@ Alternative offline Discord import:
 
 Helpful build commands:
 
+- `python tools/smashmc/build_custom_move_reference.py`
+  - Writes `data/smashmc/custom_move_reference.md`.
+  - Groups SmashMC Pokemon by Mega, Paradox, and Fusion.
+  - Lists each Pokemon's parsed custom move and Discord move description/effect text.
+
 - `python build_database.py --report-learnsets`
   - Writes `data/smashmc/missing_learnsets.json`.
   - Writes `data/smashmc/missing_learnsets.txt`.

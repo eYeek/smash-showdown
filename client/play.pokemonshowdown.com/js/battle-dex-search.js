@@ -1017,7 +1017,7 @@ return BattlePokedex;
 };_proto3.
 getDefaultResults=function getDefaultResults(){
 var results=[];
-var smashTiers=new Set(["Smash OU","Smash Ubers","Smash UU","Smash AG","Smash Unranked"]);
+var smashTiers=new Set(["SOU","SUbers","Smash OU","Smash Ubers","Smash UU","Smash AG","Smash Unranked"]);
 var smashPokemon=Object.keys(BattlePokedex).filter(function(id){return smashTiers.has(BattlePokedex[id].tier);});
 if(smashPokemon.length){
 results.push(['header',"SmashMC"]);for(var _i10=0;_i10<
@@ -1157,9 +1157,9 @@ var slices=table.formatSlices;
 if(format==='sou'||format==='subers'||format==='smashou'||format==='smashubers'){
 var isSmashOU=format==='sou'||format==='smashou';
 var smashTiers=BattleTeambuilderTable.smashPokemonTiers||table.smashPokemonTiers||{};
-var allowedSmashTiers=isSmashOU?new Set(["Smash OU","Smash UU"]):new Set(["Smash Ubers","Smash OU","Smash UU"]);
+var allowedSmashTiers=isSmashOU?new Set(["SOU","Smash OU","Smash UU"]):new Set(["SUbers","SOU","Smash Ubers","Smash OU","Smash UU"]);
 var vanillaRows=tierSet.filter(function(_ref4){var type=_ref4[0],id=_ref4[1];
-if(type==='header')return!["SmashMC","Smash Ubers","Smash OU","Smash UU","Smash AG","Smash Unranked","CAP","CAP NFE","CAP LC"].includes(id);
+if(type==='header')return!["SmashMC","SUbers","SOU","Smash Ubers","Smash OU","Smash UU","Smash AG","Smash Unranked","CAP","CAP NFE","CAP LC"].includes(id);
 if(id in smashTiers)return false;
 var tier=this.getTier(this.dex.species.get(id));
 if(tier.startsWith('CAP'))return false;
