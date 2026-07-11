@@ -16,13 +16,14 @@ END = "/* SmashMC generated client data end */"
 STAT_KEYS = ("hp", "atk", "def", "spa", "spd", "spe")
 IMAGE_SUFFIXES = {".png", ".gif", ".jpg", ".jpeg", ".webp"}
 DISPLAY_TIERS = {
-    "OU": "Smash OU",
-    "UU": "Smash UU",
-    "Uber": "Smash Ubers",
+    "OU": "SOU",
+    "UU": "SOU",
+    "Uber": "SUbers",
     "AG": "Smash AG",
     "Unreleased": "Smash Unranked",
 }
-SMASH_TIER_ORDER = ["Smash Ubers", "Smash OU", "Smash UU", "Smash AG", "Smash Unranked"]
+SMASH_TIER_ORDER = ["SUbers", "SOU", "Smash AG", "Smash Unranked"]
+CLIENT_SPRITE_MAX_DIMENSION = 384
 
 
 def repo_root() -> Path:
@@ -47,7 +48,7 @@ def strip_overlay(text: str) -> str:
 
 def display_tier(entry: dict[str, Any]) -> str:
     tier = str(entry.get("tier") or "")
-    return str(entry.get("displayTier") or DISPLAY_TIERS.get(tier, "Smash Unranked"))
+    return DISPLAY_TIERS.get(tier, str(entry.get("displayTier") or "Smash Unranked"))
 
 
 def append_overlay(path: Path, body: str) -> None:
@@ -100,6 +101,48 @@ def formats_overlay(entries: list[dict[str, Any]]) -> dict[str, Any]:
         entry["id"]: {"isNonstandard": "Custom", "tier": display_tier(entry)}
         for entry in entries
     }
+
+
+def format_list_overlay() -> list[dict[str, Any]]:
+    return [
+        {"section": "SmashMC", "column": 1},
+        {
+            "name": "[Gen 9] Smash OU",
+            "desc": "National Dex OU with one custom SmashMC OU Pokemon allowed.",
+            "mod": "gen9smashmc",
+            "searchShow": True,
+            "challengeShow": True,
+            "tournamentShow": True,
+            "ruleset": ["Standard NatDex", "Terastal Clause", "+Custom"],
+            "banlist": [
+                "ND Uber", "ND AG", "Arena Trap", "Moody", "Power Construct", "Shadow Tag",
+                "King's Rock", "Quick Claw", "Razor Fang", "Assist", "Baton Pass",
+                "Last Respects", "Shed Tail",
+            ],
+        },
+        {
+            "name": "[Gen 9] Smash Ubers",
+            "desc": "National Dex Ubers with one custom SmashMC Uber and one custom SmashMC OU Pokemon allowed.",
+            "mod": "gen9smashmc",
+            "searchShow": True,
+            "challengeShow": True,
+            "tournamentShow": True,
+            "ruleset": [
+                "Standard NatDex", "!Evasion Clause", "Evasion Moves Clause",
+                "Evasion Items Clause", "Mega Rayquaza Clause", "+Custom",
+            ],
+            "banlist": ["ND AG", "Shedinja", "Assist", "Baton Pass"],
+        },
+        {
+            "name": "[Gen 9] SmashMC",
+            "desc": "Broad local testing for SmashMC custom Pokemon data.",
+            "mod": "gen9smashmc",
+            "searchShow": False,
+            "challengeShow": True,
+            "tournamentShow": False,
+            "ruleset": ["Standard", "+Custom"],
+        },
+    ]
 
 
 def learnsets_overlay(entries: list[dict[str, Any]]) -> dict[str, Any]:
@@ -278,8 +321,16 @@ def copy_sprite_assets(root: Path, entries: list[dict[str, Any]]) -> dict[str, d
             shiny_target = sprite_root / f"{entry['id']}-shiny.png"
             normal = image.crop((0, 0, midpoint, image.height))
             shiny = image.crop((midpoint, 0, image.width, image.height))
-            normal.save(normal_target)
-            shiny.save(shiny_target)
+            normal.thumbnail(
+                (CLIENT_SPRITE_MAX_DIMENSION, CLIENT_SPRITE_MAX_DIMENSION),
+                Image.Resampling.LANCZOS,
+            )
+            shiny.thumbnail(
+                (CLIENT_SPRITE_MAX_DIMENSION, CLIENT_SPRITE_MAX_DIMENSION),
+                Image.Resampling.LANCZOS,
+            )
+            normal.save(normal_target, optimize=True)
+            shiny.save(shiny_target, optimize=True)
             display_w, display_h = scaled_sprite_size(normal.width, normal.height)
         mapping[entry["id"]] = {
             "normal": f"sprites/smashmc/{normal_target.name}",
@@ -321,6 +372,10 @@ def main() -> None:
     append_overlay(
         client_data / "formats-data.js",
         f"Object.assign(exports.BattleFormatsData, {js(formats_overlay(entries))});",
+    )
+    append_overlay(
+        client_data / "formats.js",
+        f"exports.Formats = {js(format_list_overlay())}.concat(exports.Formats);",
     )
     append_overlay(
         client_data / "learnsets.js",
