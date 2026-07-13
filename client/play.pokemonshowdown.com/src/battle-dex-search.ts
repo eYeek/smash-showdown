@@ -1161,9 +1161,6 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		if (format === 'sou' || format === 'subers' || format === 'smashou' || format === 'smashubers') {
 			const isSmashOU = format === 'sou' || format === 'smashou';
 			const smashTiers = BattleTeambuilderTable.smashPokemonTiers || table.smashPokemonTiers || {};
-			const allowedSmashTiers = isSmashOU ?
-				new Set(["SOU", "Smash OU", "Smash UU"]) :
-				new Set(["SUbers", "SOU", "Smash Ubers", "Smash OU", "Smash UU"]);
 			const vanillaRows = tierSet.filter(([type, id]) => {
 				if (type === 'header') {
 					const hiddenHeaders = [
@@ -1180,15 +1177,20 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 				if (isSmashOU) return !["Uber", "AG", "ND Uber", "ND AG", "Illegal", "Unreleased"].includes(tier);
 				return !["AG", "ND AG", "Illegal", "Unreleased"].includes(tier);
 			});
-			const customRows = Object.keys(smashTiers)
-				.filter(id => allowedSmashTiers.has(smashTiers[id]))
+			const customRowsFor = (tiers: string[]) => Object.keys(smashTiers)
+				.filter(id => tiers.includes(smashTiers[id]))
 				.sort((a, b) => this.dex.species.get(a).name.localeCompare(this.dex.species.get(b).name))
 				.map(id => ['pokemon', id as ID] as SearchRow);
-			tierSet = [
-				['header', isSmashOU ? "SOU" : "SUbers"],
-				...customRows,
-				...vanillaRows,
+			const customSections: SearchRow[] = isSmashOU ? [
+				['header', "SOU"],
+				...customRowsFor(["SOU", "Smash OU", "Smash UU"]),
+			] : [
+				['header', "SUbers"],
+				...customRowsFor(["SUbers", "Smash Ubers"]),
+				['header', "SOU"],
+				...customRowsFor(["SOU", "Smash OU", "Smash UU"]),
 			];
+			tierSet = [...customSections, ...vanillaRows];
 		} else if (
 			format === 'ubers' || format === 'uber' || format === 'ubersuu' ||
 			format === '4v4doublesuu' || format === 'nationaldexdoubles'

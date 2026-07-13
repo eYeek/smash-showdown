@@ -1157,7 +1157,6 @@ var slices=table.formatSlices;
 if(format==='sou'||format==='subers'||format==='smashou'||format==='smashubers'){
 var isSmashOU=format==='sou'||format==='smashou';
 var smashTiers=BattleTeambuilderTable.smashPokemonTiers||table.smashPokemonTiers||{};
-var allowedSmashTiers=isSmashOU?new Set(["SOU","Smash OU","Smash UU"]):new Set(["SUbers","SOU","Smash Ubers","Smash OU","Smash UU"]);
 var vanillaRows=tierSet.filter(function(_ref4){var type=_ref4[0],id=_ref4[1];
 if(type==='header'){
 var hiddenHeaders=["SmashMC","SUbers","SOU","Smash Ubers","Smash OU","Smash UU","Smash AG","Smash Unranked","CAP","CAP NFE","CAP LC","Illegal","Unreleased","ND AG"];
@@ -1170,14 +1169,15 @@ if(tier.startsWith('CAP'))return false;
 if(isSmashOU)return!["Uber","AG","ND Uber","ND AG","Illegal","Unreleased"].includes(tier);
 return!["AG","ND AG","Illegal","Unreleased"].includes(tier);
 }.bind(this));
-var customRows=Object.keys(smashTiers).filter(function(id){
-return allowedSmashTiers.has(smashTiers[id]);
+var customRowsFor=function customRowsFor(tiers){return Object.keys(smashTiers).filter(function(id){
+return tiers.includes(smashTiers[id]);
 }).sort(function(a,b){
 return this.dex.species.get(a).name.localeCompare(this.dex.species.get(b).name);
 }.bind(this)).map(function(id){
 return['pokemon',id];
-});
-tierSet=[].concat([['header',isSmashOU?"SOU":"SUbers"]],customRows,vanillaRows);
+});}.bind(this);
+var customSections=isSmashOU?[['header',"SOU"]].concat(customRowsFor(["SOU","Smash OU","Smash UU"])):[['header',"SUbers"]].concat(customRowsFor(["SUbers","Smash Ubers"]),[['header',"SOU"]],customRowsFor(["SOU","Smash OU","Smash UU"]));
+tierSet=[].concat(customSections,vanillaRows);
 }else if(
 format==='ubers'||format==='uber'||format==='ubersuu'||
 format==='4v4doublesuu'||format==='nationaldexdoubles')

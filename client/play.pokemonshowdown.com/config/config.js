@@ -5,7 +5,7 @@
 	const port = local ? Number(location.port || 8000) : 443;
 
 	window.Config = {
-		version: 'smash-public-clean-smash-search',
+		version: 'smash-public-split-subers-no-tera',
 		sockjsprefix: '/showdown',
 		bannedHosts: [],
 		whitelist: [],
