@@ -1159,7 +1159,11 @@ var isSmashOU=format==='sou'||format==='smashou';
 var smashTiers=BattleTeambuilderTable.smashPokemonTiers||table.smashPokemonTiers||{};
 var allowedSmashTiers=isSmashOU?new Set(["SOU","Smash OU","Smash UU"]):new Set(["SUbers","SOU","Smash Ubers","Smash OU","Smash UU"]);
 var vanillaRows=tierSet.filter(function(_ref4){var type=_ref4[0],id=_ref4[1];
-if(type==='header')return!["SmashMC","SUbers","SOU","Smash Ubers","Smash OU","Smash UU","Smash AG","Smash Unranked","CAP","CAP NFE","CAP LC"].includes(id);
+if(type==='header'){
+var hiddenHeaders=["SmashMC","SUbers","SOU","Smash Ubers","Smash OU","Smash UU","Smash AG","Smash Unranked","CAP","CAP NFE","CAP LC","Illegal","Unreleased","ND AG"];
+if(isSmashOU)hiddenHeaders.push("AG","Uber","ND Uber");else hiddenHeaders.push("AG");
+return!hiddenHeaders.includes(id);
+}
 if(id in smashTiers)return false;
 var tier=this.getTier(this.dex.species.get(id));
 if(tier.startsWith('CAP'))return false;

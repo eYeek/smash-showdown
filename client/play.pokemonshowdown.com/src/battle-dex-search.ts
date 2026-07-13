@@ -1166,7 +1166,13 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 				new Set(["SUbers", "SOU", "Smash Ubers", "Smash OU", "Smash UU"]);
 			const vanillaRows = tierSet.filter(([type, id]) => {
 				if (type === 'header') {
-					return !["SmashMC", "SUbers", "SOU", "Smash Ubers", "Smash OU", "Smash UU", "Smash AG", "Smash Unranked", "CAP", "CAP NFE", "CAP LC"].includes(id);
+					const hiddenHeaders = [
+						"SmashMC", "SUbers", "SOU", "Smash Ubers", "Smash OU", "Smash UU", "Smash AG", "Smash Unranked",
+						"CAP", "CAP NFE", "CAP LC", "Illegal", "Unreleased", "ND AG",
+					];
+					if (isSmashOU) hiddenHeaders.push("AG", "Uber", "ND Uber");
+					else hiddenHeaders.push("AG");
+					return !hiddenHeaders.includes(id);
 				}
 				if (id in smashTiers) return false;
 				const tier = this.getTier(this.dex.species.get(id));
