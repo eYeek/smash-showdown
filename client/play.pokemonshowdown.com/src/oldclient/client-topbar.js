@@ -1168,22 +1168,16 @@
 			var buf = '<form style="max-width:640px">';
 			if (data.error) buf += '<p class="error">' + BattleLog.escapeHTML(data.error) + '</p>';
 			buf += '<p><strong>Manual login for ' + BattleLog.escapeHTML(name) + '</strong></p>';
-			buf += '<p>Use this if password login is not working. It proves ownership through Pok&eacute;mon Showdown without entering your password on Smash Showdown.</p>';
-			buf += '<ol>';
-			buf += '<li>Make sure you are logged in as <strong>' + BattleLog.escapeHTML(name) + '</strong> on the official Pok&eacute;mon Showdown site.</li>';
-			buf += '<li><button type="button" name="openAssertion" class="button"><strong>Open official login proof</strong></button></li>';
-			buf += '<li>Copy all the text from the page that opens, then paste it below.</li>';
-			buf += '</ol>';
-			buf += '<p><label class="label">Data from Pok&eacute;mon Showdown:<br />';
-			buf += '<textarea class="textbox autofocus" name="assertion" rows="5" style="width:100%;box-sizing:border-box"></textarea></label></p>';
+			buf += '<p>Because Smash Showdown does not run its own login server yet, use Pok&eacute;mon Showdown to prove this account is yours.</p>';
+			buf += '<iframe src="' + BattleLog.escapeHTML(url) + '" style="width:100%;height:72px;box-sizing:border-box" class="textbox"></iframe>';
+			buf += '<p>Copy <strong>all the text</strong> from the box above and paste it below.</p>';
+			buf += '<p>If the box above only says <code>;</code>, log in as <strong>' + BattleLog.escapeHTML(name) + '</strong> on the official Pok&eacute;mon Showdown site, then refresh Smash Showdown and try again.</p>';
+			buf += '<p><label class="label">Data from the box above:<br />';
+			buf += '<textarea class="textbox autofocus" name="assertion" rows="3" style="width:100%;box-sizing:border-box"></textarea></label></p>';
 			buf += '<p class="buttonbar"><button type="submit" class="button"><strong>Submit</strong></button> <button type="button" name="login" class="button">Back</button> <button type="button" name="close" class="button">Cancel</button></p>';
 			buf += '<input type="hidden" name="username" value="' + BattleLog.escapeHTML(name) + '" />';
-			buf += '<input type="hidden" name="assertionurl" value="' + BattleLog.escapeHTML(url) + '" />';
 			buf += '</form>';
 			this.$el.html(buf);
-		},
-		openAssertion: function () {
-			window.open(this.$('input[name=assertionurl]').val(), '_blank', 'noopener');
 		},
 		login: function () {
 			var name = this.$('input[name=username]').val();
@@ -1210,6 +1204,17 @@
 					return;
 				}
 			} catch (e) {}
+			if (assertion === ';' || assertion === ';;@gmail') {
+				app.addPopup(ManualLoginPopup, {
+					username: name,
+					error: 'Pokemon Showdown did not provide a login proof. Make sure you are logged in as this exact account on the official site.'
+				});
+				return;
+			}
+			if (assertion.substr(0, 2) === ';;') {
+				app.addPopup(ManualLoginPopup, { username: name, error: assertion.substr(2) });
+				return;
+			}
 			this.close();
 			app.user.finishRename(name, assertion);
 		}
