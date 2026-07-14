@@ -943,7 +943,9 @@ return"background-image:url("+Dex.resourcePrefix+data.spriteDir+shiny+"/"+data.s
 
 getItemIcon=function getItemIcon(item){var _item;
 var num=0;
-if(typeof item==='string'&&window.BattleItems)item=window.BattleItems[toID(item)];
+if(window.BattleItems){var itemid=typeof item==='string'?toID(item):toID((item==null?void 0:item.id)||(item==null?void 0:item.name));
+if(itemid&&window.BattleItems[itemid])item=Object.assign({},item,window.BattleItems[itemid]);
+}
 if((_item=item)!=null&&_item.icon){
 return"background:transparent url("+Dex.resourcePrefix+item.icon+") no-repeat center/24px 24px";
 }
