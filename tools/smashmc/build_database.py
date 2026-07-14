@@ -22,6 +22,7 @@ VALID_TYPES = {
 }
 EVIDENCE_TYPE_ALIASES = {"Iron": "Steel"}
 VANILLA_ABILITY_IDS: set[str] = set()
+VANILLA_ABILITY_NAMES: dict[str, str] = {}
 VANILLA_MOVE_IDS: set[str] = set()
 VANILLA_ITEM_IDS: set[str] = set()
 VANILLA_LEARNSETS: dict[str, list[str]] = {}
@@ -146,6 +147,7 @@ def normalize_ability_list(values: Any) -> list[str]:
     for ability in abilities:
         ability = ABILITY_NAME_ALIASES.get(to_id(ability), ability)
         ability_id = to_id(ability)
+        ability = VANILLA_ABILITY_NAMES.get(ability_id, ability)
         if ability_id and ability_id not in seen:
             result.append(ability)
             seen.add(ability_id)
@@ -549,6 +551,14 @@ def load_vanilla_ids(root: Path) -> None:
         text = (root / "data" / filename).read_text(encoding="utf-8")
         for match in re.finditer(r"^\s*([a-z0-9]+):\s*{", text, flags=re.MULTILINE):
             target.add(match.group(1))
+    abilities_text = (root / "data" / "abilities.ts").read_text(encoding="utf-8")
+    ability_entries = list(re.finditer(r"^\t([a-z0-9]+):\s*{", abilities_text, flags=re.MULTILINE))
+    for index, ability_match in enumerate(ability_entries):
+        ability_id = ability_match.group(1)
+        end = ability_entries[index + 1].start() if index + 1 < len(ability_entries) else len(abilities_text)
+        body = abilities_text[ability_match.end():end]
+        name_match = re.search(r'name:\s*"([^"]+)"', body)
+        VANILLA_ABILITY_NAMES[ability_id] = name_match.group(1) if name_match else ability_id
     learnsets_text = (root / "data" / "learnsets.ts").read_text(encoding="utf-8")
     for species_match in re.finditer(r"^\t([a-z0-9]+):\s*{\n\t\tlearnset:\s*{", learnsets_text, flags=re.MULTILINE):
         species_id = species_match.group(1)
