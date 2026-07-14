@@ -61,6 +61,7 @@ export interface PSConfig {
 	customcolors: Record<string, string>;
 	whitelist?: string[];
 	testclient?: boolean;
+	requireRegisteredNames?: boolean;
 }
 export declare const Config: PSConfig;
 
@@ -790,6 +791,15 @@ class PSUser extends PSStreamModel<PSLoginState | null> {
 		} else if (assertion.includes('\n') || !assertion) {
 			PS.alert("Something is interfering with our connection to the login server.");
 		} else {
+			const userType = assertion.split(';')[0].split(',')[2];
+			if (Config.requireRegisteredNames && userType === '1') {
+				this.updateLogin({
+					name,
+					needsPassword: true,
+					error: "Smash Showdown names must be registered. Enter this Pokemon Showdown account's password to use it here.",
+				});
+				return;
+			}
 			PS.send(`/trn ${name},0,${assertion}`);
 			this.update({ success: true });
 		}

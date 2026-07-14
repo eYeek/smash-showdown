@@ -927,6 +927,9 @@ class LoginPanel extends PSRoomPanel {
 				</p>}
 				{loginState?.needsPassword && <p>
 					<i class="fa fa-level-up fa-rotate-90" aria-hidden></i> <strong>if you registered this name:</strong>
+					{loginState?.error?.startsWith('Smash Showdown names') && <small>
+						<br />Official Showdown login cookies cannot be shared with Smash Showdown, so enter the account password here once.
+					</small>}
 					<label class="label">
 						Password: {}
 						<input
