@@ -1119,7 +1119,7 @@
 				buf += '<p class="buttonbar"><button name="close" class="button">Cancel</button></p>';
 			} else {
 				buf += '<p><label class="label">Password: <input class="textbox autofocus" type="password" name="password" autocomplete="current-password" style="width:173px"><button type="button" name="showPassword" aria-label="Show password" style="float:right;margin:-21px 0 10px;padding: 2px 6px" class="button"><i class="fa fa-eye"></i></button></label></p>';
-				buf += '<p class="buttonbar"><button type="submit" class="button"><strong>Log in</strong></button> <button type="button" name="close" class="button">Cancel</button></p>';
+				buf += '<p class="buttonbar"><button type="submit" class="button"><strong>Log in</strong></button> <button type="button" name="manual" class="button">Manual login</button> <button type="button" name="close" class="button">Cancel</button></p>';
 			}
 
 			buf += '<p class="or">or</p>';
@@ -1146,9 +1146,72 @@
 			this.close();
 			app.addPopup(LoginPopup);
 		},
+		manual: function () {
+			var name = this.$('input[name=username]').val();
+			this.close();
+			app.addPopup(ManualLoginPopup, { username: name });
+		},
 		submit: function (data) {
 			this.close();
 			app.user.passwordRename(data.username, data.password);
+		}
+	});
+
+	var ManualLoginPopup = this.ManualLoginPopup = Popup.extend({
+		type: 'semimodal',
+		initialize: function (data) {
+			var name = data.username || app.user.get('name') || '';
+			var userid = toUserid(name);
+			var url = 'https://play.pokemonshowdown.com/~~' + encodeURIComponent(Config.server.id) +
+				'/action.php?act=getassertion&userid=' + encodeURIComponent(userid) +
+				'&challstr=' + encodeURIComponent(app.user.challstr || '');
+			var buf = '<form style="max-width:640px">';
+			if (data.error) buf += '<p class="error">' + BattleLog.escapeHTML(data.error) + '</p>';
+			buf += '<p><strong>Manual login for ' + BattleLog.escapeHTML(name) + '</strong></p>';
+			buf += '<p>Use this if password login is not working. It proves ownership through Pok&eacute;mon Showdown without entering your password on Smash Showdown.</p>';
+			buf += '<ol>';
+			buf += '<li>Make sure you are logged in as <strong>' + BattleLog.escapeHTML(name) + '</strong> on the official Pok&eacute;mon Showdown site.</li>';
+			buf += '<li><button type="button" name="openAssertion" class="button"><strong>Open official login proof</strong></button></li>';
+			buf += '<li>Copy all the text from the page that opens, then paste it below.</li>';
+			buf += '</ol>';
+			buf += '<p><label class="label">Data from Pok&eacute;mon Showdown:<br />';
+			buf += '<textarea class="textbox autofocus" name="assertion" rows="5" style="width:100%;box-sizing:border-box"></textarea></label></p>';
+			buf += '<p class="buttonbar"><button type="submit" class="button"><strong>Submit</strong></button> <button type="button" name="login" class="button">Back</button> <button type="button" name="close" class="button">Cancel</button></p>';
+			buf += '<input type="hidden" name="username" value="' + BattleLog.escapeHTML(name) + '" />';
+			buf += '<input type="hidden" name="assertionurl" value="' + BattleLog.escapeHTML(url) + '" />';
+			buf += '</form>';
+			this.$el.html(buf);
+		},
+		openAssertion: function () {
+			window.open(this.$('input[name=assertionurl]').val(), '_blank', 'noopener');
+		},
+		login: function () {
+			var name = this.$('input[name=username]').val();
+			this.close();
+			app.addPopup(LoginPasswordPopup, { username: name });
+		},
+		submit: function (data) {
+			var name = data.username;
+			var assertion = (data.assertion || '').trim();
+			if (!assertion) {
+				app.addPopup(ManualLoginPopup, { username: name, error: 'Paste the login proof from Pokemon Showdown first.' });
+				return;
+			}
+			if (assertion.charAt(0) === ']') assertion = assertion.slice(1);
+			try {
+				var parsed = JSON.parse(assertion);
+				if (parsed && parsed.assertion) {
+					assertion = parsed.assertion;
+				} else if (parsed && parsed.loggedin === false) {
+					app.addPopup(ManualLoginPopup, {
+						username: name,
+						error: 'Pokemon Showdown says you are not logged in. Log in on the official site, refresh the proof page, then try again.'
+					});
+					return;
+				}
+			} catch (e) {}
+			this.close();
+			app.user.finishRename(name, assertion);
 		}
 	});
 
