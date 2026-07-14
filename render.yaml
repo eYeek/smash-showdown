@@ -3,7 +3,7 @@ services:
     name: smash-showdown
     runtime: node
     plan: free
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci && npm run build && cd client && node build-tools/update
     startCommand: npm start
     healthCheckPath: /
     envVars:

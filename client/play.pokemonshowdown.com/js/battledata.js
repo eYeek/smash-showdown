@@ -579,7 +579,7 @@ getSpriteData=function getSpriteData(pokemon,isFront)
 
 
 
-{var options=arguments.length>2&&arguments[2]!==undefined?arguments[2]:{gen:6};
+{var _window$BattleSmashMC;var options=arguments.length>2&&arguments[2]!==undefined?arguments[2]:{gen:6};
 var mechanicsGen=options.gen||6;
 var isDynamax=!!options.dynamax;
 if(pokemon instanceof Pokemon){
@@ -627,16 +627,17 @@ facing='back';
 }
 var speciesid=species.id;
 if(species.isTotem)speciesid=toID(name);
-if(window.BattleSmashMCSprites&&window.BattleSmashMCSprites[speciesid]){
+if((_window$BattleSmashMC=window.BattleSmashMCSprites)!=null&&_window$BattleSmashMC[speciesid]){
 var sprite=window.BattleSmashMCSprites[speciesid];
 var spritePath=sprite[options.shiny?'shiny':'normal'];
-return Object.assign({},spriteData,{
+return Object.assign({},
+spriteData,{
 w:sprite.w||96,
 h:sprite.h||96,
 url:document.location.origin+"/"+spritePath.replace(/^\/+/,''),
 pixelated:false,
-isFrontSprite:isFront
-});
+isFrontSprite:isFront});
+
 }
 
 
@@ -801,7 +802,7 @@ num=BattlePokemonIconIndexesLeft[id];
 return num;
 };_proto2.
 
-getPokemonIcon=function getPokemonIcon(pokemon,facingLeft){var _pokemon,_pokemon2,_pokemon3,_window$BattleSmashMC,_pokemon6,_pokemon7;
+getPokemonIcon=function getPokemonIcon(pokemon,facingLeft){var _pokemon,_pokemon2,_pokemon3,_window$BattleSmashMC2,_pokemon6,_pokemon7;
 if(pokemon==='pokeball'){
 return"background:transparent url("+Dex.resourcePrefix+"sprites/pokemonicons-pokeball-sheet.png) no-repeat scroll -0px 4px";
 }else if(pokemon==='pokeball-statused'){
@@ -823,7 +824,7 @@ if((_pokemon3=pokemon)!=null&&(_pokemon3=_pokemon3.volatiles)!=null&&_pokemon3.f
 
 id=toID(pokemon.volatiles.formechange[1]);
 }
-if((_window$BattleSmashMC=window.BattleSmashMCSprites)!=null&&_window$BattleSmashMC[id]){var _pokemon4,_pokemon5;
+if((_window$BattleSmashMC2=window.BattleSmashMCSprites)!=null&&_window$BattleSmashMC2[id]){var _pokemon4,_pokemon5;
 var _fainted=(_pokemon4=pokemon)!=null&&_pokemon4.fainted?";opacity:.3;filter:grayscale(100%) brightness(.5)":"";
 
 var shiny=!!((_pokemon5=pokemon)!=null&&_pokemon5.shiny);
@@ -840,7 +841,7 @@ var fainted=(_pokemon7=pokemon)!=null&&_pokemon7.fainted?";opacity:.3;filter:gra
 return"background:transparent url("+Dex.resourcePrefix+"sprites/pokemonicons-sheet.png?v22) no-repeat scroll -"+left+"px -"+top+"px"+fainted;
 };_proto2.
 
-getTeambuilderSpriteData=function getTeambuilderSpriteData(pokemon){var _window$BattleSmashMC2;var dex=arguments.length>1&&arguments[1]!==undefined?arguments[1]:Dex;
+getTeambuilderSpriteData=function getTeambuilderSpriteData(pokemon){var _window$BattleSmashMC3;var dex=arguments.length>1&&arguments[1]!==undefined?arguments[1]:Dex;
 var gen=dex.gen;
 var id=toID(pokemon.species||pokemon);
 var species=Dex.species.get(id);
@@ -853,7 +854,7 @@ if(pokemon.species&&!spriteid){
 spriteid=species.spriteid||id;
 }
 }
-if((_window$BattleSmashMC2=window.BattleSmashMCSprites)!=null&&_window$BattleSmashMC2[id]){
+if((_window$BattleSmashMC3=window.BattleSmashMCSprites)!=null&&_window$BattleSmashMC3[id]){
 var shiny=!!pokemon.shiny;
 return{
 spriteid:spriteid,

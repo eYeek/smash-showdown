@@ -2274,13 +2274,18 @@ export const PS = new class extends PSModel {
 						room.title = args[3] || room.title;
 						this.renameRoom(room, args[2] as RoomID);
 					}
-				}
-				this.update();
-				continue;
-			} case 'nametaken': {
-				PS.join('login' as RoomID, { args: { error: `Someone is already using the name ${args[1]}.` } });
-				break;
-			} case 'chat': case 'c': {
+			}
+			this.update();
+			continue;
+		} case 'nametaken': {
+			const error = args[2] || `Someone is already using the name ${args[1]}.`;
+			if (error.startsWith('Smash Showdown names must be registered')) {
+				PS.join('login' as RoomID, { args: { name: args[1], needsPassword: true, error } });
+			} else {
+				PS.join('login' as RoomID, { args: { error } });
+			}
+			break;
+		} case 'chat': case 'c': {
 				if (args[1] === '~' && (args[2] + ' ').startsWith('/warn ')) {
 					PS.join(`rules-warn` as RoomID, {
 						args: {
