@@ -409,7 +409,7 @@ def main() -> None:
         client_data / "items.js",
         "\n".join([
             f"var smashItems = {js(item_overlay(entries))};",
-            "for (const id in smashItems) if (!exports.BattleItems[id]) exports.BattleItems[id] = smashItems[id];",
+            "for (const id in smashItems) exports.BattleItems[id] = Object.assign({}, exports.BattleItems[id], smashItems[id]);",
         ]),
     )
     append_overlay(
