@@ -1165,24 +1165,37 @@
 			var url = 'https://play.pokemonshowdown.com/~~' + encodeURIComponent(Config.server.id) +
 				'/action.php?act=getassertion&userid=' + encodeURIComponent(userid) +
 				'&challstr=' + encodeURIComponent(app.user.challstr || '');
-			var buf = '<form style="max-width:640px">';
+			var buf = '<form style="max-width:720px">';
 			if (data.error) buf += '<p class="error">' + BattleLog.escapeHTML(data.error) + '</p>';
-			buf += '<p><strong>Manual login for ' + BattleLog.escapeHTML(name) + '</strong></p>';
-			buf += '<p>Because Smash Showdown does not run its own login server yet, use Pok&eacute;mon Showdown to prove this account is yours.</p>';
-			buf += '<iframe src="' + BattleLog.escapeHTML(url) + '" style="width:100%;height:72px;box-sizing:border-box" class="textbox"></iframe>';
-			buf += '<p>Copy <strong>all the text</strong> from the box above and paste it below.</p>';
-			buf += '<p>If the box above only says <code>;</code>, log in as <strong>' + BattleLog.escapeHTML(name) + '</strong> on the official Pok&eacute;mon Showdown site, then refresh Smash Showdown and try again.</p>';
-			buf += '<p><label class="label">Data from the box above:<br />';
-			buf += '<textarea class="textbox autofocus" name="assertion" rows="3" style="width:100%;box-sizing:border-box"></textarea></label></p>';
-			buf += '<p class="buttonbar"><button type="submit" class="button"><strong>Submit</strong></button> <button type="button" name="login" class="button">Back</button> <button type="button" name="close" class="button">Cancel</button></p>';
+			buf += '<p><strong>Log in as ' + BattleLog.escapeHTML(name) + '</strong></p>';
+			buf += '<p>Smash Showdown uses Pok&eacute;mon Showdown to prove this account is yours.</p>';
+			buf += '<ol style="margin-left:20px;padding-left:0">';
+			buf += '<li>Log in as <strong>' + BattleLog.escapeHTML(name) + '</strong> on official Pok&eacute;mon Showdown.</li>';
+			buf += '<li>Copy every character from the proof box.</li>';
+			buf += '<li>Paste it into the bottom box and submit.</li>';
+			buf += '</ol>';
+			buf += '<p class="buttonbar"><button type="button" name="openOfficial" class="button">Open official Pok&eacute;mon Showdown login</button></p>';
+			buf += '<p><label class="label">Proof box:<br />';
+			buf += '<iframe src="' + BattleLog.escapeHTML(url) + '" style="width:100%;height:112px;box-sizing:border-box" class="textbox"></iframe></label></p>';
+			buf += '<p><small>If the proof box only says <code>;</code>, official Pok&eacute;mon Showdown is not logged in as <strong>' + BattleLog.escapeHTML(name) + '</strong>. Log in there, then reopen this popup.</small></p>';
+			buf += '<p><label class="label">Paste proof here:<br />';
+			buf += '<textarea class="textbox autofocus" name="assertion" rows="5" spellcheck="false" autocomplete="off" style="width:100%;box-sizing:border-box;font-family:monospace"></textarea></label></p>';
+			buf += '<p class="buttonbar"><button type="submit" class="button"><strong>Log in</strong></button> <button type="button" name="refresh" class="button">Refresh proof</button> <button type="button" name="login" class="button">Choose another name</button> <button type="button" name="close" class="button">Cancel</button></p>';
 			buf += '<input type="hidden" name="username" value="' + BattleLog.escapeHTML(name) + '" />';
 			buf += '</form>';
-			this.$el.html(buf);
+			this.$el.html(buf).css('min-width', 520);
 		},
-		login: function () {
+		openOfficial: function () {
+			window.open('https://play.pokemonshowdown.com/', '_blank', 'noopener');
+		},
+		refresh: function () {
 			var name = this.$('input[name=username]').val();
 			this.close();
-			app.addPopup(LoginPasswordPopup, { username: name });
+			app.addPopup(ManualLoginPopup, { username: name });
+		},
+		login: function () {
+			this.close();
+			app.addPopup(LoginPopup);
 		},
 		submit: function (data) {
 			var name = data.username;

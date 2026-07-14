@@ -573,7 +573,7 @@ function toId() {
 			});
 
 			this.user.on('login:authrequired', function (name, special, error) {
-				self.addPopup(LoginPasswordPopup, { username: name, special: special, error: error });
+				self.addPopup(ManualLoginPopup, { username: name, special: special, error: error });
 			});
 
 			this.on('loggedin', function () {
