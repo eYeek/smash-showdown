@@ -18,6 +18,28 @@ function getSmashCustomSpecies(set: any, dex: any) {
 	return species.isNonstandard === "Custom" ? species : null;
 }
 
+const SMASH_SPECIES_MOVE_BANS: {[speciesid: string]: {[moveid: string]: string}} = {
+	espeonmega: {expandingforce: "Expanding Force"},
+	jolteonmega: {risingvoltage: "Rising Voltage"},
+};
+
+function validateSmashSpeciesMoveBans(team: any[], dex: any) {
+	const problems = [];
+	for (const set of team) {
+		const species = getSmashCustomSpecies(set, dex);
+		if (!species) continue;
+		const bannedMoves = SMASH_SPECIES_MOVE_BANS[species.id];
+		if (!bannedMoves) continue;
+
+		for (const moveName of set.moves || []) {
+			const moveid = dex.moves.get(moveName).id;
+			if (!bannedMoves[moveid]) continue;
+			problems.push(`${species.name} is not allowed to have ${bannedMoves[moveid]}.`);
+		}
+	}
+	return problems;
+}
+
 function countSmashCustoms(formatName: string, team: any[], dex: any) {
 	const custom = [];
 	for (const set of team) {
@@ -71,12 +93,14 @@ function countSmashCustoms(formatName: string, team: any[], dex: any) {
 function validateSOUTeam(this: any, team: any[], options: any) {
 	const problems = this.baseValidateTeam(team, options) || [];
 	problems.push(...countSmashCustoms("SOU", team, this.dex));
+	problems.push(...validateSmashSpeciesMoveBans(team, this.dex));
 	return problems.length ? problems : null;
 }
 
 function validateSUbersTeam(this: any, team: any[], options: any) {
 	const problems = this.baseValidateTeam(team, options) || [];
 	problems.push(...countSmashCustoms("SUbers", team, this.dex));
+	problems.push(...validateSmashSpeciesMoveBans(team, this.dex));
 	return problems.length ? problems : null;
 }
 

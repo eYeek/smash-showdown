@@ -43,6 +43,10 @@ MOVE_NAME_ALIASES = {
     "mimicsmisery": "Phantom's Grudge",
     "supersonicimpact": "Thunderous Phoenix",
 }
+SPECIES_MOVE_BANS = {
+    "espeonmega": {"expandingforce"},
+    "jolteonmega": {"risingvoltage"},
+}
 ABILITY_NAME_ALIASES = {
     "beserk": "Berserk",
     "electricterrain": "Electric Surge",
@@ -416,6 +420,13 @@ def learnset_moves_for(name: str, pokemon_id: str, learnsets: dict[str, Any]) ->
     return []
 
 
+def apply_species_move_bans(pokemon_id: str, moves: list[str]) -> list[str]:
+    banned = SPECIES_MOVE_BANS.get(pokemon_id)
+    if not banned:
+        return moves
+    return [move for move in moves if to_id(move) not in banned]
+
+
 def normalize_entry(raw: dict[str, Any], learnsets: dict[str, Any]) -> dict[str, Any]:
     source_name = str(raw.get("name", "")).strip()
     if not source_name:
@@ -430,6 +441,7 @@ def normalize_entry(raw: dict[str, Any], learnsets: dict[str, Any]) -> dict[str,
     if not abilities:
         raise ValueError(f"{name} is missing abilities.")
     moves = learnset_moves_for(source_name, source_id, learnsets)
+    moves = apply_species_move_bans(pokemon_id, moves)
     if not moves:
         raise ValueError(f"{name} is missing moves. Run tools/smashmc/export_learnsets.py.")
     custom_moves = [
