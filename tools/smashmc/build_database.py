@@ -663,8 +663,8 @@ def items_body(entries: list[dict[str, Any]], names: list[str]) -> str:
         if mega:
             description = f"If held by {mega['baseSpecies']}, this item allows it to Mega Evolve."
             lines.extend([
-                f"\t\tmegaStone: {{ {quote(mega['baseSpecies'])}: {quote(mega['name'])} }},",
-                f"\t\titemUser: [{quote(mega['baseSpecies'])}],",
+                f"\t\tmegaStone: {{ {quote(mega['baseSpecies'])}: {quote(mega['name'])}, {quote(mega['name'])}: {quote(mega['name'])} }},",
+                f"\t\titemUser: [{quote(mega['baseSpecies'])}, {quote(mega['name'])}],",
                 "\t\tonTakeItem(item, source) {",
                 "\t\t\treturn !item.megaStone?.[source.baseSpecies.baseSpecies];",
                 "\t\t},",

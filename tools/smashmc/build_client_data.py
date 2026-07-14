@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 from pathlib import Path
 from typing import Any
@@ -249,8 +250,8 @@ def item_overlay(entries: list[dict[str, Any]]) -> dict[str, Any]:
             "gen": 9,
             "isNonstandard": "Custom",
             "icon": f"sprites/itemicons/smashmc/{item_id}.png",
-            "megaStone": {entry["baseSpecies"]: entry["name"]},
-            "itemUser": [entry["baseSpecies"]],
+            "megaStone": {entry["baseSpecies"]: entry["name"], entry["name"]: entry["name"]},
+            "itemUser": [entry["baseSpecies"], entry["name"]],
             "desc": description,
             "shortDesc": description,
         }
@@ -349,8 +350,8 @@ def copy_sprite_assets(root: Path, entries: list[dict[str, Any]]) -> dict[str, d
                 (CLIENT_SPRITE_MAX_DIMENSION, CLIENT_SPRITE_MAX_DIMENSION),
                 Image.Resampling.LANCZOS,
             )
-            normal.save(normal_target, optimize=True)
-            shiny.save(shiny_target, optimize=True)
+            save_png(normal, normal_target)
+            save_png(shiny, shiny_target)
             display_w, display_h = scaled_sprite_size(normal.width, normal.height)
         mapping[entry["id"]] = {
             "normal": f"sprites/smashmc/{normal_target.name}",
@@ -359,6 +360,12 @@ def copy_sprite_assets(root: Path, entries: list[dict[str, Any]]) -> dict[str, d
             "h": display_h,
         }
     return mapping
+
+
+def save_png(image: Image.Image, target: Path) -> None:
+    temp = target.with_name(f"{target.stem}.tmp{target.suffix}")
+    image.save(temp, optimize=True)
+    os.replace(temp, target)
 
 
 def scaled_sprite_size(width: int, height: int) -> tuple[int, int]:
