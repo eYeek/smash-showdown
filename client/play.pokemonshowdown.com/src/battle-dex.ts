@@ -944,6 +944,9 @@ export const Dex = new class implements ModdedDex {
 	getItemIcon(item: any) {
 		let num = 0;
 		if (typeof item === 'string' && window.BattleItems) item = window.BattleItems[toID(item)];
+		if (item?.icon) {
+			return `background:transparent url(${Dex.resourcePrefix}${item.icon}) no-repeat center/24px 24px`;
+		}
 		if (item?.spritenum) num = item.spritenum;
 
 		let top = Math.floor(num / 16) * 24;

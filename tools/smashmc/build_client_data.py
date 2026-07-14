@@ -248,6 +248,7 @@ def item_overlay(entries: list[dict[str, Any]]) -> dict[str, Any]:
             "num": -9000,
             "gen": 9,
             "isNonstandard": "Custom",
+            "icon": f"sprites/itemicons/smashmc/{item_id}.png",
             "megaStone": {entry["baseSpecies"]: entry["name"]},
             "itemUser": [entry["baseSpecies"]],
             "desc": description,

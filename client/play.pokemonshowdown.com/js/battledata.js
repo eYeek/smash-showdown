@@ -944,6 +944,9 @@ return"background-image:url("+Dex.resourcePrefix+data.spriteDir+shiny+"/"+data.s
 getItemIcon=function getItemIcon(item){var _item;
 var num=0;
 if(typeof item==='string'&&window.BattleItems)item=window.BattleItems[toID(item)];
+if((_item=item)!=null&&_item.icon){
+return"background:transparent url("+Dex.resourcePrefix+item.icon+") no-repeat center/24px 24px";
+}
 if((_item=item)!=null&&_item.spritenum)num=item.spritenum;
 
 var top=Math.floor(num/16)*24;
