@@ -5,7 +5,7 @@
 	const port = local ? Number(location.port || 8000) : 443;
 
 	window.Config = {
-		version: 'smash-public-delta-login',
+		version: 'smash-public-registered-login',
 		requireRegisteredNames: true,
 		sockjsprefix: '/showdown',
 		bannedHosts: [],
@@ -27,7 +27,7 @@
 			altport: port,
 			protocol,
 			prefix: '/showdown',
-			registered: false,
+			registered: true,
 		},
 		customcolors: {},
 	};
