@@ -19,10 +19,10 @@ DISPLAY_TIERS = {
     "OU": "SOU",
     "UU": "SOU",
     "Uber": "SUbers",
-    "AG": "Smash AG",
+    "AG": "SAG",
     "Unreleased": "Smash Unranked",
 }
-SMASH_TIER_ORDER = ["SUbers", "SOU", "Smash AG", "Smash Unranked"]
+SMASH_TIER_ORDER = ["SAG", "SUbers", "SOU", "Smash Unranked"]
 CLIENT_SPRITE_MAX_DIMENSION = 384
 
 
@@ -129,18 +129,27 @@ def format_list_overlay() -> list[dict[str, Any]]:
             "tournamentShow": True,
             "ruleset": [
                 "Standard NatDex", "!Evasion Clause", "Evasion Moves Clause",
-                "Evasion Items Clause", "Mega Rayquaza Clause", "+Custom",
+                "Evasion Items Clause", "Mega Rayquaza Clause", "Terastal Clause", "+Custom",
             ],
             "banlist": ["ND AG", "Shedinja", "Assist", "Baton Pass"],
         },
         {
+            "name": "[Gen 9] Smash AG",
+            "desc": "National Dex Anything Goes with unrestricted custom SmashMC Pokemon.",
+            "mod": "gen9smashmc",
+            "searchShow": True,
+            "challengeShow": True,
+            "tournamentShow": True,
+            "ruleset": ["Standard AG", "NatDex Mod", "Terastal Clause", "+Custom"],
+        },
+        {
             "name": "[Gen 9] SmashMC",
-            "desc": "Broad local testing for SmashMC custom Pokemon data.",
+            "desc": "Legacy alias for Smash AG.",
             "mod": "gen9smashmc",
             "searchShow": False,
-            "challengeShow": True,
+            "challengeShow": False,
             "tournamentShow": False,
-            "ruleset": ["Standard", "+Custom"],
+            "ruleset": ["Standard AG", "NatDex Mod", "Terastal Clause", "+Custom"],
         },
     ]
 

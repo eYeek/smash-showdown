@@ -947,12 +947,15 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			return pokemon.num >= 0 ? String(pokemon.num) : pokemon.tier;
 		}
 		const displayTier = (tier: string) => {
-			if (!["sou", "subers", "smashou", "smashubers"].includes(this.format)) return tier;
+			if (!["sou", "subers", "sag", "smashou", "smashubers", "smashag", "smashmc"].includes(this.format)) {
+				return tier;
+			}
+			if (tier === "Smash AG") return "SAG";
 			if (tier === "Smash Ubers") return "SUbers";
 			if (tier === "Smash OU" || tier === "Smash UU") return "SOU";
 			return tier;
 		};
-		if (["sou", "subers", "smashou", "smashubers"].includes(this.format)) {
+		if (["sou", "subers", "sag", "smashou", "smashubers", "smashag", "smashmc"].includes(this.format)) {
 			const smashTiers = BattleTeambuilderTable.smashPokemonTiers || {};
 			if (pokemon.id in smashTiers) return displayTier(smashTiers[pokemon.id]);
 		}
@@ -1021,7 +1024,9 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 	}
 	getDefaultResults(): SearchRow[] {
 		let results: SearchRow[] = [];
-		const smashTiers = new Set(["SOU", "SUbers", "Smash OU", "Smash Ubers", "Smash UU", "Smash AG", "Smash Unranked"]);
+		const smashTiers = new Set([
+			"SAG", "SOU", "SUbers", "Smash OU", "Smash Ubers", "Smash UU", "Smash AG", "Smash Unranked",
+		]);
 		const smashPokemon = Object.keys(BattlePokedex).filter(id => smashTiers.has(BattlePokedex[id].tier));
 		if (smashPokemon.length) {
 			results.push(['header', "SmashMC"]);
@@ -1158,30 +1163,43 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		}
 		let tierSet: SearchRow[] = table.tierSet;
 		let slices: { [k: string]: number } = table.formatSlices;
-		if (format === 'sou' || format === 'subers' || format === 'smashou' || format === 'smashubers') {
+		if (
+			format === 'sou' || format === 'subers' || format === 'sag' ||
+			format === 'smashou' || format === 'smashubers' ||
+			format === 'smashag' || format === 'smashmc'
+		) {
 			const isSmashOU = format === 'sou' || format === 'smashou';
+			const isSmashAG = format === 'sag' || format === 'smashag' || format === 'smashmc';
 			const smashTiers = BattleTeambuilderTable.smashPokemonTiers || table.smashPokemonTiers || {};
 			const vanillaRows = tierSet.filter(([type, id]) => {
 				if (type === 'header') {
 					const hiddenHeaders = [
-						"SmashMC", "SUbers", "SOU", "Smash Ubers", "Smash OU", "Smash UU", "Smash AG", "Smash Unranked",
-						"CAP", "CAP NFE", "CAP LC", "Illegal", "Unreleased", "ND AG",
+						"SmashMC", "SAG", "SUbers", "SOU", "Smash Ubers", "Smash OU", "Smash UU", "Smash AG", "Smash Unranked",
+						"CAP", "CAP NFE", "CAP LC", "Illegal", "Unreleased",
 					];
 					if (isSmashOU) hiddenHeaders.push("AG", "Uber", "ND Uber");
-					else hiddenHeaders.push("AG");
+					else if (!isSmashAG) hiddenHeaders.push("AG", "ND AG");
 					return !hiddenHeaders.includes(id);
 				}
 				if (id in smashTiers) return false;
 				const tier = this.getTier(this.dex.species.get(id));
 				if (tier.startsWith('CAP')) return false;
 				if (isSmashOU) return !["Uber", "AG", "ND Uber", "ND AG", "Illegal", "Unreleased"].includes(tier);
+				if (isSmashAG) return !["Illegal", "Unreleased"].includes(tier);
 				return !["AG", "ND AG", "Illegal", "Unreleased"].includes(tier);
 			});
 			const customRowsFor = (tiers: string[]) => Object.keys(smashTiers)
 				.filter(id => tiers.includes(smashTiers[id]))
 				.sort((a, b) => this.dex.species.get(a).name.localeCompare(this.dex.species.get(b).name))
 				.map(id => ['pokemon', id as ID] as SearchRow);
-			const customSections: SearchRow[] = isSmashOU ? [
+			const customSections: SearchRow[] = isSmashAG ? [
+				['header', "Smash AG"],
+				...customRowsFor(["SAG", "Smash AG", "AG"]),
+				['header', "Smash Ubers"],
+				...customRowsFor(["SUbers", "Smash Ubers"]),
+				['header', "Smash OU"],
+				...customRowsFor(["SOU", "Smash OU", "Smash UU"]),
+			] : isSmashOU ? [
 				['header', "Smash OU"],
 				...customRowsFor(["SOU", "Smash OU", "Smash UU"]),
 			] : [

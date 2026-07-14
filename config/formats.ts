@@ -123,6 +123,12 @@ function validateSUbersTeam(this: any, team: any[], options: any) {
 	return problems.length ? problems : null;
 }
 
+function validateSAGTeam(this: any, team: any[], options: any) {
+	const problems = this.baseValidateTeam(team, options) || [];
+	problems.push(...validateSmashSpeciesMoveBans(team, this.dex));
+	return problems.length ? problems : null;
+}
+
 export const Formats: import('../sim/dex-formats').FormatList = [
 
 	// SmashMC
@@ -183,13 +189,24 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		validateTeam: validateSUbersTeam,
 	},
 	{
+		name: "[Gen 9] Smash AG",
+		desc: "National Dex Anything Goes with unrestricted custom SmashMC Pokemon.",
+		mod: "gen9smashmc",
+		searchShow: true,
+		challengeShow: true,
+		tournamentShow: true,
+		ruleset: ["Standard AG", "NatDex Mod", "Terastal Clause", "+Custom"],
+		validateTeam: validateSAGTeam,
+	},
+	{
 		name: "[Gen 9] SmashMC",
-		desc: "Broad local testing for SmashMC custom Pokemon data.",
+		desc: "Legacy alias for Smash AG.",
 		mod: "gen9smashmc",
 		searchShow: false,
-		challengeShow: true,
+		challengeShow: false,
 		tournamentShow: false,
-		ruleset: ["Standard", "+Custom"],
+		ruleset: ["Standard AG", "NatDex Mod", "Terastal Clause", "+Custom"],
+		validateTeam: validateSAGTeam,
 	},
 	{
 		name: "[Gen 9] SmashMC Custom Game",

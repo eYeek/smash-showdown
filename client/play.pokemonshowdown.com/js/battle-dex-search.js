@@ -943,12 +943,13 @@ if(this.formatType==='metronome'){
 return pokemon.num>=0?String(pokemon.num):pokemon.tier;
 }
 var displayTier=function(tier){
-if(!["sou","subers","smashou","smashubers"].includes(this.format))return tier;
+if(!["sou","subers","sag","smashou","smashubers","smashag","smashmc"].includes(this.format))return tier;
+if(tier==="Smash AG")return"SAG";
 if(tier==="Smash Ubers")return"SUbers";
 if(tier==="Smash OU"||tier==="Smash UU")return"SOU";
 return tier;
 }.bind(this);
-if(["sou","subers","smashou","smashubers"].includes(this.format)){
+if(["sou","subers","sag","smashou","smashubers","smashag","smashmc"].includes(this.format)){
 var smashTiers=BattleTeambuilderTable.smashPokemonTiers||{};
 if(pokemon.id in smashTiers)return displayTier(smashTiers[pokemon.id]);
 }
@@ -1017,7 +1018,7 @@ return BattlePokedex;
 };_proto3.
 getDefaultResults=function getDefaultResults(){
 var results=[];
-var smashTiers=new Set(["SOU","SUbers","Smash OU","Smash Ubers","Smash UU","Smash AG","Smash Unranked"]);
+var smashTiers=new Set(["SAG","SOU","SUbers","Smash OU","Smash Ubers","Smash UU","Smash AG","Smash Unranked"]);
 var smashPokemon=Object.keys(BattlePokedex).filter(function(id){return smashTiers.has(BattlePokedex[id].tier);});
 if(smashPokemon.length){
 results.push(['header',"SmashMC"]);for(var _i10=0;_i10<
@@ -1154,19 +1155,21 @@ table.tiers=null;
 }
 var tierSet=table.tierSet;
 var slices=table.formatSlices;
-if(format==='sou'||format==='subers'||format==='smashou'||format==='smashubers'){
+if(format==='sou'||format==='subers'||format==='sag'||format==='smashou'||format==='smashubers'||format==='smashag'||format==='smashmc'){
 var isSmashOU=format==='sou'||format==='smashou';
+var isSmashAG=format==='sag'||format==='smashag'||format==='smashmc';
 var smashTiers=BattleTeambuilderTable.smashPokemonTiers||table.smashPokemonTiers||{};
 var vanillaRows=tierSet.filter(function(_ref4){var type=_ref4[0],id=_ref4[1];
 if(type==='header'){
-var hiddenHeaders=["SmashMC","SUbers","SOU","Smash Ubers","Smash OU","Smash UU","Smash AG","Smash Unranked","CAP","CAP NFE","CAP LC","Illegal","Unreleased","ND AG"];
-if(isSmashOU)hiddenHeaders.push("AG","Uber","ND Uber");else hiddenHeaders.push("AG");
+var hiddenHeaders=["SmashMC","SAG","SUbers","SOU","Smash Ubers","Smash OU","Smash UU","Smash AG","Smash Unranked","CAP","CAP NFE","CAP LC","Illegal","Unreleased"];
+if(isSmashOU)hiddenHeaders.push("AG","Uber","ND Uber");else if(!isSmashAG)hiddenHeaders.push("AG","ND AG");
 return!hiddenHeaders.includes(id);
 }
 if(id in smashTiers)return false;
 var tier=this.getTier(this.dex.species.get(id));
 if(tier.startsWith('CAP'))return false;
 if(isSmashOU)return!["Uber","AG","ND Uber","ND AG","Illegal","Unreleased"].includes(tier);
+if(isSmashAG)return!["Illegal","Unreleased"].includes(tier);
 return!["AG","ND AG","Illegal","Unreleased"].includes(tier);
 }.bind(this));
 var customRowsFor=function customRowsFor(tiers){return Object.keys(smashTiers).filter(function(id){
@@ -1176,7 +1179,7 @@ return this.dex.species.get(a).name.localeCompare(this.dex.species.get(b).name);
 }.bind(this)).map(function(id){
 return['pokemon',id];
 });}.bind(this);
-var customSections=isSmashOU?[['header',"Smash OU"]].concat(customRowsFor(["SOU","Smash OU","Smash UU"])):[['header',"Smash Ubers"]].concat(customRowsFor(["SUbers","Smash Ubers"]),[['header',"Smash OU"]],customRowsFor(["SOU","Smash OU","Smash UU"]));
+var customSections=isSmashAG?[['header',"Smash AG"]].concat(customRowsFor(["SAG","Smash AG","AG"]),[['header',"Smash Ubers"]],customRowsFor(["SUbers","Smash Ubers"]),[['header',"Smash OU"]],customRowsFor(["SOU","Smash OU","Smash UU"])):isSmashOU?[['header',"Smash OU"]].concat(customRowsFor(["SOU","Smash OU","Smash UU"])):[['header',"Smash Ubers"]].concat(customRowsFor(["SUbers","Smash Ubers"]),[['header',"Smash OU"]],customRowsFor(["SOU","Smash OU","Smash UU"]));
 tierSet=[].concat(customSections,vanillaRows);
 }else if(
 format==='ubers'||format==='uber'||format==='ubersuu'||
