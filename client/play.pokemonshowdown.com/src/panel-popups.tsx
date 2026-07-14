@@ -680,7 +680,7 @@ class OptionsPanel extends PSRoomPanel {
 
 			{PS.user.named && (PS.user.registered?.userid === PS.user.userid ?
 				<button className="button" data-href="changepassword">Password...</button> :
-				<button className="button" data-href="register">Register</button>)}
+				<button className="button" data-href="register">Register PS account</button>)}
 
 			<hr />
 			<h3>Graphics</h3>
@@ -1203,7 +1203,13 @@ class RegisterPanel extends PSRoomPanel {
 				{ !!this.state.errorMsg?.length && <p>
 					<b class="message-error"> {this.state.errorMsg}</b>
 				</p> }
-				<p>Register your account:</p>
+				<p><strong>Register this Pokemon Showdown account:</strong></p>
+				<p>
+					<small>
+						Smash Showdown uses official Pokemon Showdown accounts for protected names.
+						This will register the name on Pokemon Showdown, not only on Smash Showdown.
+					</small>
+				</p>
 				<p>
 					<label class="label">
 						Username: {}
@@ -1235,7 +1241,7 @@ class RegisterPanel extends PSRoomPanel {
 					</label>
 				</p>
 				<p class="buttonbar">
-					<button type="submit" class="button"><strong>Register</strong></button> {}
+					<button type="submit" class="button"><strong>Register PS account</strong></button> {}
 					<button type="button" data-cmd="/close" class="button">Cancel</button>
 				</p>
 			</form>

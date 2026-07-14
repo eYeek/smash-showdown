@@ -27,6 +27,7 @@ exports.routes = {
 // Smash Showdown does not run a dedicated login server yet.
 exports.noguestsecurity = true;
 exports.loginserver = 'https://play.pokemonshowdown.com/';
+exports.requireregisterednames = true;
 
 exports.customhttpresponse = function customHttpResponse(req, res) {
 	if (!req.url || !/^\/~~[^/]+\/action\.php(?:\?|$)/.test(req.url)) return false;

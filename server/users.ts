@@ -768,6 +768,13 @@ export class User extends Chat.MessageContext {
 		const userType = await this.validateToken(token, name, userid, connection);
 		if (userType === null) return;
 		if (userType === '1') newlyRegistered = false;
+		if (Config.requireregisterednames && userType === '1') {
+			this.send(
+				`|nametaken|${name}|Smash Showdown names must be registered Pokemon Showdown accounts. ` +
+				`Log in with this name's password, register it first, or stay as a Guest.`
+			);
+			return false;
+		}
 
 		if (!this.trusted && userType === '1') { // userType '1' means unregistered
 			const elapsed = Date.now() - this.lastNewNameTime;
