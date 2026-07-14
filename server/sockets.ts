@@ -347,8 +347,10 @@ export class ServerStream extends Streams.ObjectReadWriteStream<string> {
 			});
 			const staticRequestHandler = (req: http.IncomingMessage, res: http.ServerResponse) => {
 				// console.log(`static rq: ${req.socket.remoteAddress}:${req.socket.remotePort} -> ${req.socket.localAddress}:${req.socket.localPort} - ${req.method} ${req.url} ${req.httpVersion} - ${req.rawHeaders.join('|')}`);
-				req.resume();
+				const chunks: Buffer[] = [];
+				req.on('data', chunk => chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)));
 				req.addListener('end', () => {
+					(req as any).body = Buffer.concat(chunks);
 					if (config.customhttpresponse?.(req, res)) {
 						return;
 					}
