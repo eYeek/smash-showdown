@@ -262,8 +262,8 @@ function toId() {
 				var userType = assertion.split(';')[0].split(',')[2];
 				if (Config.requireRegisteredNames && userType === '1') {
 					this.trigger(
-						'login:authrequired', name, null,
-						"Smash Showdown names must be registered. Enter this Pokemon Showdown account's password to use it here."
+						'login:invalidname', name,
+						"Smash Showdown names must be registered. Register this name first, choose another name, or stay as a Guest."
 					);
 					return;
 				}
@@ -332,7 +332,7 @@ function toId() {
 					}
 					app.addPopup(LoginPasswordPopup, {
 						username: name,
-						error: data.error || 'Wrong password.',
+						error: data.error || data.actionerror || 'Wrong password.',
 						special: special
 					});
 				}
@@ -1225,7 +1225,7 @@ function toId() {
 
 			case 'nametaken':
 				if ((parts[2] || '').indexOf('Smash Showdown names must be registered') === 0) {
-					app.addPopup(LoginPasswordPopup, { username: parts[1] || '', error: parts[2] || '' });
+					app.addPopup(LoginPopup, { name: parts[1] || '', error: parts[2] || '', canRegister: true });
 				} else {
 					app.addPopup(LoginPopup, { name: parts[1] || '', error: parts[2] || '' });
 				}

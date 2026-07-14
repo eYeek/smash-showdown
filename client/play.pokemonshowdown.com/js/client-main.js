@@ -753,7 +753,7 @@ gapi.auth2.getAuthInstance().signOut();
 }
 _this6.updateLogin(Object.assign({
 name:name,
-error:(data==null?void 0:data.error)||'Wrong password.'},
+error:(data==null?void 0:data.error)||(data==null?void 0:data.actionerror)||'Wrong password.'},
 special)
 );
 }
@@ -795,8 +795,7 @@ var userType=assertion.split(';')[0].split(',')[2];
 if(Config.requireRegisteredNames&&userType==='1'){
 this.updateLogin({
 name:name,
-needsPassword:true,
-error:"Smash Showdown names must be registered. Enter this Pokemon Showdown account's password to use it here."
+error:"Smash Showdown names must be registered. Register this name first, choose another name, or stay as a Guest."
 });
 return;
 }
@@ -2280,7 +2279,7 @@ continue;
 }case'nametaken':{
 var error=args[2]||"Someone is already using the name "+args[1]+".";
 if(error.startsWith('Smash Showdown names must be registered')){
-PS.join('login',{args:{name:args[1],needsPassword:true,error:error}});
+PS.join('login',{args:{name:args[1],error:error}});
 }else{
 PS.join('login',{args:{error:error}});
 }

@@ -967,10 +967,16 @@ class LoginPanel extends PSRoomPanel {
 					<p>
 						<i class="fa fa-level-up fa-rotate-90" aria-hidden></i> <strong>if not:</strong>
 					</p>
-					<p style={{ maxWidth: '210px', margin: '0 auto' }}>
-						This is someone else's account. Sorry.
-					</p>
+					{loginState?.error?.startsWith('Smash Showdown names must be registered') ?
+						<p style={{ maxWidth: '210px', margin: '0 auto' }}>
+							This name is available, but it needs to be registered before it can be used here.
+						</p> :
+						<p style={{ maxWidth: '210px', margin: '0 auto' }}>
+							This is someone else's account. Sorry.
+						</p>}
 					<p class="buttonbar">
+						{loginState?.error?.startsWith('Smash Showdown names must be registered') &&
+							<button class="button" data-href="register">Register PS account</button>} {}
 						<button class="button" onClick={this.reset}>Try another name</button>
 					</p>
 				</div>}

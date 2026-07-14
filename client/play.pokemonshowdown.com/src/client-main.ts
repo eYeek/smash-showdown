@@ -753,7 +753,7 @@ class PSUser extends PSStreamModel<PSLoginState | null> {
 				}
 				this.updateLogin({
 					name,
-					error: data?.error || 'Wrong password.',
+					error: data?.error || data?.actionerror || 'Wrong password.',
 					...special as any,
 				});
 			}
@@ -795,8 +795,7 @@ class PSUser extends PSStreamModel<PSLoginState | null> {
 			if (Config.requireRegisteredNames && userType === '1') {
 				this.updateLogin({
 					name,
-					needsPassword: true,
-					error: "Smash Showdown names must be registered. Enter this Pokemon Showdown account's password to use it here.",
+					error: "Smash Showdown names must be registered. Register this name first, choose another name, or stay as a Guest.",
 				});
 				return;
 			}
@@ -2280,7 +2279,7 @@ export const PS = new class extends PSModel {
 		} case 'nametaken': {
 			const error = args[2] || `Someone is already using the name ${args[1]}.`;
 			if (error.startsWith('Smash Showdown names must be registered')) {
-				PS.join('login' as RoomID, { args: { name: args[1], needsPassword: true, error } });
+				PS.join('login' as RoomID, { args: { name: args[1], error } });
 			} else {
 				PS.join('login' as RoomID, { args: { error } });
 			}

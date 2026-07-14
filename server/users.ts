@@ -771,7 +771,7 @@ export class User extends Chat.MessageContext {
 		if (Config.requireregisterednames && userType === '1') {
 			this.send(
 				`|nametaken|${name}|Smash Showdown names must be registered Pokemon Showdown accounts. ` +
-				`Log in with this name's password, register it first, or stay as a Guest.`
+				`Register this name first, choose another name, or stay as a Guest.`
 			);
 			return false;
 		}

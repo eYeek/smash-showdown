@@ -46,6 +46,7 @@ exports.customhttpresponse = function customHttpResponse(req, res) {
 			'Content-Type': 'application/x-www-form-urlencoded',
 			'Content-Length': Buffer.byteLength(body),
 			'User-Agent': 'Smash Showdown login proxy',
+			...(req.headers.cookie ? {Cookie: req.headers.cookie} : {}),
 		},
 		timeout: 15000,
 	}, upstreamRes => {
@@ -55,10 +56,17 @@ exports.customhttpresponse = function customHttpResponse(req, res) {
 			data += chunk;
 		});
 		upstreamRes.on('end', () => {
-			res.writeHead(upstreamRes.statusCode || 200, {
+			const headers = {
 				'Content-Type': upstreamRes.headers['content-type'] || 'text/plain; charset=utf-8',
 				'Cache-Control': 'no-store',
-			});
+			};
+			const setCookie = upstreamRes.headers['set-cookie'];
+			if (setCookie) {
+				headers['Set-Cookie'] = setCookie.map(cookie =>
+					cookie.replace(/;\s*Domain=[^;]+/i, '')
+				);
+			}
+			res.writeHead(upstreamRes.statusCode || 200, headers);
 			res.end(data);
 		});
 	});

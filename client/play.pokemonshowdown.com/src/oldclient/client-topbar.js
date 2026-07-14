@@ -955,6 +955,10 @@
 			if (name) {
 				buf += '<p><small>(Others will be able to see your name change. To change name privately, use "Log out")</small></p>';
 			}
+			if (data.canRegister) {
+				buf += '<p>This name is available, but Smash Showdown requires registered names.</p>';
+				buf += '<p class="buttonbar"><button type="button" name="register" class="button"><strong>Register PS account</strong></button></p>';
+			}
 			buf += '<p class="buttonbar"><button type="submit" class="button"><strong>Choose name</strong></button> <button type="button" name="close" class="button">Cancel</button></p>';
 
 			buf += '</form>';
@@ -982,6 +986,11 @@
 			this.close();
 			if (!$.trim(data.username)) return;
 			app.user.rename(data.username);
+		},
+		register: function () {
+			var name = this.$('input[name=username]').val();
+			this.close();
+			app.addPopup(RegisterPopup, { name: name });
 		}
 	});
 
