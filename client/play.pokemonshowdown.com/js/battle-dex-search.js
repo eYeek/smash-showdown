@@ -1176,7 +1176,7 @@ return this.dex.species.get(a).name.localeCompare(this.dex.species.get(b).name);
 }.bind(this)).map(function(id){
 return['pokemon',id];
 });}.bind(this);
-var customSections=isSmashOU?[['header',"SOU"]].concat(customRowsFor(["SOU","Smash OU","Smash UU"])):[['header',"SUbers"]].concat(customRowsFor(["SUbers","Smash Ubers"]),[['header',"SOU"]],customRowsFor(["SOU","Smash OU","Smash UU"]));
+var customSections=isSmashOU?[['header',"Smash OU"]].concat(customRowsFor(["SOU","Smash OU","Smash UU"])):[['header',"Smash Ubers"]].concat(customRowsFor(["SUbers","Smash Ubers"]),[['header',"Smash OU"]],customRowsFor(["SOU","Smash OU","Smash UU"]));
 tierSet=[].concat(customSections,vanillaRows);
 }else if(
 format==='ubers'||format==='uber'||format==='ubersuu'||

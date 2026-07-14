@@ -1182,12 +1182,12 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 				.sort((a, b) => this.dex.species.get(a).name.localeCompare(this.dex.species.get(b).name))
 				.map(id => ['pokemon', id as ID] as SearchRow);
 			const customSections: SearchRow[] = isSmashOU ? [
-				['header', "SOU"],
+				['header', "Smash OU"],
 				...customRowsFor(["SOU", "Smash OU", "Smash UU"]),
 			] : [
-				['header', "SUbers"],
+				['header', "Smash Ubers"],
 				...customRowsFor(["SUbers", "Smash Ubers"]),
-				['header', "SOU"],
+				['header', "Smash OU"],
 				...customRowsFor(["SOU", "Smash OU", "Smash UU"]),
 			];
 			tierSet = [...customSections, ...vanillaRows];
