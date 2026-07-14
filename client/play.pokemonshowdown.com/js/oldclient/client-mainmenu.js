@@ -1053,7 +1053,9 @@
 			if (!noChoice) {
 				this.curFormat = formatid;
 				if (!this.curFormat) {
-					if (BattleFormats['gen9randombattle']) {
+					if (BattleFormats['gen9smashou']) {
+						this.curFormat = 'gen9smashou';
+					} else if (BattleFormats['gen9randombattle']) {
 						this.curFormat = 'gen9randombattle';
 					} else for (var i in BattleFormats) {
 						if (!BattleFormats[i].searchShow || !BattleFormats[i].challengeShow) continue;
