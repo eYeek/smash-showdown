@@ -943,12 +943,14 @@ export const Dex = new class implements ModdedDex {
 
 	getItemIcon(item: any) {
 		let num = 0;
+		const itemid = typeof item === 'string' ? toID(item) : toID(item?.id || item?.name);
+		const smashIcon = (window as any).BattleSmashMCItemIcons?.[itemid];
 		if (window.BattleItems) {
-			const itemid = typeof item === 'string' ? toID(item) : toID(item?.id || item?.name);
 			if (itemid && window.BattleItems[itemid]) item = {...item, ...window.BattleItems[itemid]};
 		}
-		if (item?.icon) {
-			return `background:transparent url(${Dex.resourcePrefix}${item.icon}) no-repeat center/24px 24px`;
+		const customIcon = smashIcon || item?.icon;
+		if (customIcon) {
+			return `background:transparent url(${Dex.resourcePrefix}${customIcon}) no-repeat scroll center center`;
 		}
 		if (item?.spritenum) num = item.spritenum;
 

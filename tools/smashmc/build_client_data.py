@@ -257,6 +257,16 @@ def item_overlay(entries: list[dict[str, Any]]) -> dict[str, Any]:
     return dict(sorted(items.items()))
 
 
+def item_icon_overlay(entries: list[dict[str, Any]]) -> dict[str, str]:
+    icons: dict[str, str] = {}
+    for entry in entries:
+        if not entry.get("isMega"):
+            continue
+        item_id = to_id(entry["requiredItem"])
+        icons[item_id] = f"sprites/itemicons/smashmc/{item_id}.png"
+    return dict(sorted(icons.items()))
+
+
 def move_overlay(entries: list[dict[str, Any]]) -> dict[str, Any]:
     moves: dict[str, Any] = {}
     for entry in entries:
@@ -408,6 +418,7 @@ def main() -> None:
     append_overlay(
         client_data / "items.js",
         "\n".join([
+            f"exports.BattleSmashMCItemIcons = {js(item_icon_overlay(entries))};",
             f"var smashItems = {js(item_overlay(entries))};",
             "for (const id in smashItems) exports.BattleItems[id] = Object.assign({}, exports.BattleItems[id], smashItems[id]);",
         ]),
