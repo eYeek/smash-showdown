@@ -6,10 +6,14 @@ from __future__ import annotations
 import json
 import os
 import re
+import sys
 from pathlib import Path
 from typing import Any
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
 from PIL import Image
+from tools.smashmc.move_descriptions import compact_move_short_desc
 
 
 START = "/* SmashMC generated client data start */"
@@ -307,7 +311,7 @@ def move_overlay(entries: list[dict[str, Any]]) -> dict[str, Any]:
                     "num": -9000,
                     "isNonstandard": "Custom",
                     "desc": move.get("desc", ""),
-                    "shortDesc": move.get("shortDesc", ""),
+                    "shortDesc": compact_move_short_desc(move),
                 }
                 moves[move_id].update({
                     key: value for key, value in battle.items()
@@ -382,6 +386,9 @@ def copy_sprite_assets(root: Path, entries: list[dict[str, Any]]) -> dict[str, d
 def save_png(image: Image.Image, target: Path) -> None:
     temp = target.with_name(f"{target.stem}.tmp{target.suffix}")
     image.save(temp, optimize=True)
+    if target.exists() and target.read_bytes() == temp.read_bytes():
+        temp.unlink()
+        return
     os.replace(temp, target)
 
 

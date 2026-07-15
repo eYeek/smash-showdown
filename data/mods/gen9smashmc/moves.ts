@@ -12,7 +12,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ice",
 		desc: "The user brings temperatures close to the bottom limit, ensuring a frosty environment and a critical hit.",
-		shortDesc: "Sets Snowy Weather; Always Crits",
+		shortDesc: "Always crits; Sets snow.",
 		weather: "snow",
 		critRatio: 4,
 	},
@@ -29,7 +29,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Fire",
 		desc: "Charizard pulls flames back from time itself to encase it's enemy in.",
-		shortDesc: "Fire Special; 25% chance to burn your opponent",
+		shortDesc: "25% burns target.",
 		secondary: {"chance": 25, "status": "brn"},
 	},
 	angeliclance: {
@@ -45,7 +45,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Fairy",
 		desc: "The user plunges a lance-shaped beam of energy into its opponent, sapping the life force from them in order to replenish its own.",
-		shortDesc: "User has 45% Lifesteal",
+		shortDesc: "Heals 45% damage dealt.",
 		drain: [45, 100],
 	},
 	aquaticblessing: {
@@ -61,7 +61,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "self",
 		type: "Water",
 		desc: "Blessed by the power of the lakes, this Pokemon is able to heal itself and cure itself of any ailments.",
-		shortDesc: "Cures all status effects; Restores 50% HP",
+		shortDesc: "Heals 50% max HP.",
 		heal: [1, 2],
 		onHit(pokemon) { if (pokemon.status) pokemon.cureStatus(); },
 	},
@@ -78,7 +78,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Water",
 		desc: "The user slices through the water with its powerful tail, creating a razor-sharp current which can cut through any foe’s armour",
-		shortDesc: "Water Special; High chance to Critical Strike; Increases the user’s speed by one stage",
+		shortDesc: "High crit ratio; User +1 Spe.",
 		critRatio: 2,
 		self: {"boosts": {"spe": 1}},
 	},
@@ -95,7 +95,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Water",
 		desc: "25% chance to burn the opponent",
-		shortDesc: "25% chance to burn the opponent",
+		shortDesc: "25% burns target.",
 		secondary: {"chance": 25, "status": "brn"},
 		basePowerCallback(pokemon, target) {
 			return target.status === 'brn' ? 130 : 105;
@@ -114,7 +114,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ice",
 		desc: "The user grabs the opponent in its jaws and bits down with all its might.",
-		shortDesc: "Always Crits",
+		shortDesc: "Always crits.",
 		critRatio: 4,
 	},
 	ascendeddarkness: {
@@ -130,7 +130,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dark",
 		desc: "The Pokemon flys high into the air below unleashing a devastating dark blow to its opponent",
-		shortDesc: "Lowers users Attack, Defence and Special Defence by 1 stage",
+		shortDesc: "User -1 Atk, -1 Def, -1 SpD.",
 		self: {"boosts": {"atk": -1, "def": -1, "spd": -1}},
 	},
 	beyondthevoid: {
@@ -146,7 +146,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dark",
 		desc: "Needs to charge up for one turn",
-		shortDesc: "Will always crit the opponent, and then boost the user's attack and speed by one stage; 1 PP",
+		shortDesc: "Always crits; User +1 Atk, +1 Spe.",
 		critRatio: 4,
 		self: {"boosts": {"atk": 1, "spe": 1}},
 	},
@@ -163,7 +163,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Electric",
 		desc: "The user strikes with a bolt of pitch-black lightning that crackles with dark energy, potentially leaving the target paralysed.",
-		shortDesc: "10% Chance to Paralyze the opponent",
+		shortDesc: "10% paralyzes target.",
 		secondary: {"chance": 10, "status": "par"},
 	},
 	boltblitz: {
@@ -179,7 +179,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Electric",
 		desc: "The user channels lightning through its fists, striking the target with a flurry of electric-charged blows at blinding speed.",
-		shortDesc: "+1 Priority Move, but you take 25% of the damage dealt as recoil damage",
+		shortDesc: "+1 priority; User loses 25% recoil.",
 		recoil: [25, 100],
 	},
 	celestialsting: {
@@ -195,7 +195,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Bug",
 		desc: "The user transfers a portion of its celestial energy into each of its stingers, causing them to rapidly pierce any opponent.",
-		shortDesc: "Hits Twice",
+		shortDesc: "Hits 2 times.",
 		multihit: 2,
 	},
 	chaoticthrashing: {
@@ -211,7 +211,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Water",
 		desc: "The user violently thrashes its body in order to create razor-sharp waves which slash its opponent.",
-		shortDesc: "User is locked in for 2-3 turns, but becomes confused afterwards",
+		shortDesc: "User is locked in, then confused.",
 		self: {"volatileStatus": "lockedmove"},
 	},
 	darknessflame: {
@@ -227,7 +227,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dark",
 		desc: "The user summons a ring of darkness around its arm before unleashing it at the opponent, dealing massive damage and burning them.",
-		shortDesc: "Always causes a burn, but the user is left immobile afterwards",
+		shortDesc: "Burns target.",
 		status: "brn",
 		self: {"volatileStatus": "mustrecharge"},
 	},
@@ -244,7 +244,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dark",
 		desc: "Shadowstorm Fury unleashes a torrent of dark energy infused with the power of a raging storm. The move creates a powerful vortex of shadows that engulfs the target.",
-		shortDesc: "20% Chance to lower Special Defence",
+		shortDesc: "20% target -1 SpD.",
 		secondary: {"chance": 20, "boosts": {"spd": -1}},
 	},
 	davyjonesanchor: {
@@ -260,7 +260,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ghost",
 		desc: "The user whip's the opponent with it's Metallic tail, crippling it's legs",
-		shortDesc: "Slows opponent by 1 stage",
+		shortDesc: "Target -1 Spe.",
 		boosts: {"spe": -1},
 	},
 	descentfromgrace: {
@@ -276,7 +276,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Normal",
 		desc: "This attack, a final outburst of Arceus' light shimmering through Giratina's darkness, is still powerful enough to shake any foe to their core.",
-		shortDesc: "33% Recoil Damage",
+		shortDesc: "User loses 33% recoil.",
 		recoil: [33, 100],
 	},
 	dimensionaldistortion: {
@@ -292,7 +292,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dragon",
 		desc: "The user tears reality open, pummelling the opponent from every angle with aura that warps space itself.",
-		shortDesc: "Gets rid of all Terrains upon hitting the opponent",
+		shortDesc: "Clears terrain on hit.",
 		onHit() { if (this.field.terrain) this.field.clearTerrain(); },
 	},
 	divinedepletion: {
@@ -308,7 +308,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Poison",
 		desc: "The user fuses the energy draining power of one half and the godlike power of its other half to drain opponents of their lifeforce.",
-		shortDesc: "The user regains 40% of the drained health from the opponent",
+		shortDesc: "Heals 40% damage dealt.",
 		drain: [40, 100],
 	},
 	divinefart: {
@@ -324,7 +324,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Normal",
 		desc: "The user unleashes a fart from the gods. Anyone at the merci of this move becomes toxiced",
-		shortDesc: "Applys Toxic debuff to the Opponent",
+		shortDesc: "Badly poisons target.",
 		status: "tox",
 	},
 	draconickunai: {
@@ -340,7 +340,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dragon",
 		desc: "The user hurls 3-5 kunai at its opponent at an inescapable speed with no chance to dodge.",
-		shortDesc: "Always Hits; Hits 3 times; +1 Priority",
+		shortDesc: "+1 priority; Does not check accuracy; Hits 3 times.",
 		multihit: 3,
 	},
 	draconicstrike: {
@@ -356,7 +356,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dragon",
 		desc: "The user channels all of his Draconic Energy into its fist and unleashes it upon the target, inflicting massive damage.",
-		shortDesc: "Removed Users Dragon type upon use",
+		shortDesc: "Removes user's Dragon typing after use.",
 		onAfterMove(source) {
 			const types = source.getTypes().filter(type => type !== 'Dragon');
 			if (types.length) source.setType(types);
@@ -375,7 +375,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Electric",
 		desc: "Xurkisys shocks their opponent into lowering their guard, opening them up for more powerful attacks.",
-		shortDesc: "Lowers the Opponents Special Defence and Defence by 1 Stage",
+		shortDesc: "Target -1 Def, -1 SpD.",
 		boosts: {"def": -1, "spd": -1},
 	},
 	elementalobliteration: {
@@ -391,7 +391,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dragon",
 		desc: "The user combines all three elements stored within its body, and unleashes a deadly blast at its opponent.",
-		shortDesc: "10% Chance to Burn; 10% Chance to Freeze; 10% Chance to Paralyse",
+		shortDesc: "10% burns target; 10% freezes target; 10% paralyzes target.",
 		secondaries: [{"chance": 10, "status": "brn"}, {"chance": 10, "status": "frz"}, {"chance": 10, "status": "par"}],
 	},
 	eternaldamnation: {
@@ -407,7 +407,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ghost",
 		desc: "Lunara shoots its opponent to the depths of hell, causing them endless suffering and pain.",
-		shortDesc: "The opponent will lose 10% HP every turn for 4 moves; Traps opponent for 4 turns",
+		shortDesc: "Traps target; deals 10% max HP each turn.",
 		volatileStatus: "eternaldamnation",
 		condition: {
 			duration: 5,
@@ -429,7 +429,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ghost",
 		desc: "The user launches a devilish assault on their opponent, hitting once with each of its heads.",
-		shortDesc: "Hits 3 times; Each hit has a 10% chance to flinch",
+		shortDesc: "Hits 3 times.",
 		multihit: 3,
 		secondary: {"chance": 10, "volatileStatus": "flinch"},
 	},
@@ -446,7 +446,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "self",
 		type: "Fairy",
 		desc: "Zacius shouts to the fairy king to wish him prosperity in battle.",
-		shortDesc: "Move Charges for 1 Turn then boosts Attack, Speed and Defence by 2 Stages",
+		shortDesc: "Charges turn 1; then raises Atk, Def, Spe by 2.",
 		boosts: {"atk": 2, "def": 2, "spe": 2},
 		onTryMove(attacker, defender, move) {
 			if (attacker.removeVolatile(move.id)) return;
@@ -469,7 +469,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dark",
 		desc: "Traps the opponent in a dark cloud, causing them to be constantly damaged and unable to switch.",
-		shortDesc: "Traps opponent, damaging them for each turn they are in",
+		shortDesc: "Traps and damages target.",
 		volatileStatus: "partiallytrapped",
 	},
 	fivefangferocity: {
@@ -485,7 +485,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dark",
 		desc: "The user utilizes its five tails to release devastating bites on all foes.",
-		shortDesc: "Hits 5 times",
+		shortDesc: "Hits 5 times.",
 		multihit: 5,
 	},
 	flamingcosmos: {
@@ -501,7 +501,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Fire",
 		desc: "The user brings psychic fire from the depths from space and launches it at its target. This has been known to frighten the opposing Pokemon so much that they lower their defences.",
-		shortDesc: "50% chance to Drop the Opponent's Special Defense by 1",
+		shortDesc: "50% target -1 SpD.",
 		secondary: {"chance": 50, "boosts": {"spd": -1}},
 	},
 	flashstep: {
@@ -517,7 +517,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Electric",
 		desc: "The user races around its opponent at breakneck speeds, inflicting damage while simultaneously boosting its own speed.",
-		shortDesc: "Raises the users speed by 1",
+		shortDesc: "User +1 Spe.",
 		self: {"boosts": {"spe": 1}},
 	},
 	frostbittenflurry: {
@@ -533,7 +533,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Flying",
 		desc: "The user combines both its ice and wind prowess to form a devastating gust of wind.",
-		shortDesc: "Summons Hail",
+		shortDesc: "Sets snow.",
 		weather: "snow",
 	},
 	frostyfarewell: {
@@ -549,7 +549,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ice",
 		desc: "The user hits the opponent with frosty force. This lays hail as well.",
-		shortDesc: "Summons Hail",
+		shortDesc: "Sets snow.",
 		weather: "snow",
 	},
 	frozenmalice: {
@@ -565,7 +565,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ice",
 		desc: "The user becomes increasingly cold, freezing its surroundings making the opponent extra easy to hit.",
-		shortDesc: "Increased Critical Hit Ratio",
+		shortDesc: "High crit ratio.",
 		critRatio: 2,
 	},
 	fullmoonscurse: {
@@ -581,7 +581,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "allAdjacentFoes",
 		type: "Ghost",
 		desc: "The user slashes the foes under the glow of a cursed full moon. This Ghost-type attack never misses and strikes adjacent opponents, leaving them wracked with lingering anguish after the blow.",
-		shortDesc: "The user slashes the foes under the glow of a cursed full moon. This Ghost-type attack never misses and strikes adjacent opponents, leaving them wracked with lingering anguish after the blow.",
+		shortDesc: "Does not check accuracy. Hits adjacent foes.",
 	},
 	geneticdistortion: {
 		num: -9036,
@@ -596,7 +596,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ghost",
 		desc: "The user rips through mind and shadow, twisting DNA and reality into a crushing singularity of psychic dread.",
-		shortDesc: "50% chance to cause the opponent's Special Defense to lower",
+		shortDesc: "50% target -1 SpD.",
 		secondary: {"chance": 50, "boosts": {"spd": -1}},
 	},
 	geniusgrudge: {
@@ -612,7 +612,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Psychic",
 		desc: "Mewtwonite uses its immense intellect to predict the enemies next move, boosting its power accordingly.",
-		shortDesc: "Always lands a critical strike",
+		shortDesc: "Always crits.",
 		critRatio: 4,
 	},
 	ghoulsnightmare: {
@@ -628,7 +628,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ghost",
 		desc: "The user beams a nightmare into the opponent's head, damaging them both physically and mentally.",
-		shortDesc: "Lowers the opponent's Special Defense by 1",
+		shortDesc: "Target -1 SpD.",
 		boosts: {"spd": -1},
 	},
 	gigatonvolcano: {
@@ -644,7 +644,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Fire",
 		desc: "Aggrizard riles himself into a chaotic fiery mess, hurting everyone around him.. Including himself.",
-		shortDesc: "80% Chance to Burn",
+		shortDesc: "80% burns target.",
 		secondary: {"chance": 80, "status": "brn"},
 	},
 	grandcannon: {
@@ -660,7 +660,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Water",
 		desc: "The user utilises its water-eroded canons and fires a shrapnel filled blast at its opponent, inflicting massive damage",
-		shortDesc: "Water Physical; Is always a Critical Hit",
+		shortDesc: "Always crits.",
 		critRatio: 4,
 	},
 	gravitonpulse: {
@@ -676,7 +676,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Water",
 		desc: "The user absorbs the hydrogen molecules in the air around it, condenses them with the power of gravity, and launches an all-out blast at the opponent",
-		shortDesc: "Water Special; Lowers the Opponent's speed by one stage",
+		shortDesc: "Target -1 Spe.",
 		boosts: {"spe": -1},
 	},
 	guardiansideals: {
@@ -692,7 +692,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "self",
 		type: "Grass",
 		desc: "The user summons the timeless power of verdant woods and crackling thunder, unleashing a radiant surge that bends nature and time itself.",
-		shortDesc: "Increases Defense, Special Attack, and Special Defense by one stage, while also curing Status Ailments",
+		shortDesc: "Raises Def, SpA, SpD by 1; cures user's status.",
 		boosts: {"def": 1, "spa": 1, "spd": 1},
 		onHit(pokemon) { if (pokemon.status) pokemon.cureStatus(); },
 	},
@@ -709,7 +709,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Normal",
 		desc: "The user unleashes virus-infused energy from the heavens in order to obliterate the opposition",
-		shortDesc: "30% chance to Poison Opponent",
+		shortDesc: "30% poisons target.",
 		secondary: {"chance": 30, "status": "psn"},
 	},
 	hydroelectricpower: {
@@ -725,7 +725,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "self",
 		type: "Electric",
 		desc: "Manarisu charges power from the water around it, boosting its power and speed.",
-		shortDesc: "Raises Special Attack and Speed by 2 stages",
+		shortDesc: "User +2 SpA, +2 Spe.",
 		self: {"boosts": {"spa": 2, "spe": 2}},
 	},
 	illusionistsmasterpiece: {
@@ -741,7 +741,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Normal",
 		desc: "Through years of honing its work, Zorcario has perfected a technique in order to copy a Pokemon's essence simply by attacking them.",
-		shortDesc: "User transforms after the move",
+		shortDesc: "User transforms after the move.",
 		onHit(target, source) { if (!target.fainted) source.transformInto(target); },
 	},
 	infinityunleashed: {
@@ -757,7 +757,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "self",
 		type: "Psychic",
 		desc: "Drawing upon its infinite energy reserves, Mewtini powers itself into a final form that shall never know retreat nor defeat.",
-		shortDesc: "Traps the User; Raises all stats by 1",
+		shortDesc: "User +1 Atk, +1 Def, +1 SpA, +1 SpD, +1 Spe.",
 		boosts: {"atk": 1, "def": 1, "spa": 1, "spd": 1, "spe": 1},
 		volatileStatus: 'infinityunleashed',
 		condition: { onTrapPokemon(pokemon) { pokemon.tryTrap(); } },
@@ -775,7 +775,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Water",
 		desc: "The user releases all of it's energy in one massive outburst doing immence damage, before quickly falling into a deep sleep.",
-		shortDesc: "User will rest afterwards",
+		shortDesc: "User falls asleep after use.",
 		onAfterMove(source) { if (source.hp) source.trySetStatus('slp', source); },
 	},
 	lightningbarrage: {
@@ -791,7 +791,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Electric",
 		desc: "The user summons a barrage of lightning, bombarding the enemy with the force of a thunderstorm.",
-		shortDesc: "Hits 3 times",
+		shortDesc: "Hits 3 times.",
 		multihit: 3,
 	},
 	lightninglunge: {
@@ -807,7 +807,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Electric",
 		desc: "The Pokémon lunges at the target with the speed of lightning, with a chance to lower the target's Speed.",
-		shortDesc: "30% Chance to lower speed",
+		shortDesc: "30% target -1 Spe.",
 		secondary: {"chance": 30, "boosts": {"spe": -1}},
 	},
 	lionslightning: {
@@ -823,7 +823,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Electric",
 		desc: "The user charges forth with the full force of a lion while engulfing itself in lightning.",
-		shortDesc: "Electric Move; 10% Chance to Paralyse the opponent; 50% recoil damage",
+		shortDesc: "User loses 50% recoil.",
 		recoil: [50, 100],
 	},
 	lustrouslance: {
@@ -839,7 +839,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Fairy",
 		desc: "The user charges with a radiant, shimmering lance of fairy energy. The brilliance of the strike dazzles the target, lowering its Defence stat.",
-		shortDesc: "50% Chance to drop the opponents defence",
+		shortDesc: "50% target -1 Def.",
 		secondary: {"chance": 50, "boosts": {"def": -1}},
 	},
 	magiciansescape: {
@@ -855,7 +855,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Psychic",
 		desc: "The user uses their magical abilities to quickly attack the opponent then flee out of battle.",
-		shortDesc: "User switches out after use",
+		shortDesc: "User switches out.",
 		selfSwitch: true,
 	},
 	magneticmaelstrom: {
@@ -888,7 +888,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Steel",
 		desc: "The user releases synthesised, metal-infused venom into the body of its opponents, damaging them and causing everlasting agony",
-		shortDesc: "Iron Special; Inflicts Toxic on its Opponent",
+		shortDesc: "Badly poisons target.",
 		status: "tox",
 	},
 	metallicshredder: {
@@ -904,7 +904,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Steel",
 		desc: "The user cuts into its opponent using its razor-sharp, steel claws.",
-		shortDesc: "Always Critical hits",
+		shortDesc: "Always crits.",
 		critRatio: 4,
 	},
 	midnighthowl: {
@@ -920,7 +920,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "self",
 		type: "Dark",
 		desc: "A chilling lunar cry ripples through the night, calling forth creeping shadows that stalk the foe from beyond the veil.",
-		shortDesc: "Dark-Type Move; Status; Increases the user's Attack, Special Attack, and Speed by one stage, but lowers its Defense and Special Defense by one stage",
+		shortDesc: "User +1 Atk, -1 Def, +1 SpA, -1 SpD, +1 Spe.",
 		self: {"boosts": {"atk": 1, "def": -1, "spa": 1, "spd": -1, "spe": 1}},
 	},
 	momentousmagma: {
@@ -936,7 +936,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Fire",
 		desc: "Utilizing its bulky stature, the user charges forth at blazing speeds, crashing into the opponent and inflicting massive damage.",
-		shortDesc: "Raises the users speed by 1; Always Crits",
+		shortDesc: "Always crits; User +1 Spe.",
 		critRatio: 4,
 		self: {"boosts": {"spe": 1}},
 	},
@@ -953,7 +953,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dragon",
 		desc: "The user delivers a godlike decree from the heavens, its draconic aura sweeping the field and unmaking all who defy its will.",
-		shortDesc: "Lowers the user's Defense and Special Defense by one stage",
+		shortDesc: "User -1 Def, -1 SpD.",
 		self: {"boosts": {"def": -1, "spd": -1}},
 	},
 	phantomsgrudge: {
@@ -969,7 +969,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ghost",
 		desc: "Always Badly Poisons the opponent",
-		shortDesc: "Always Badly Poisons the opponent",
+		shortDesc: "Badly poisons target.",
 		status: "tox",
 	},
 	phantomstampede: {
@@ -985,7 +985,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ghost",
 		desc: "The user summons four ghostly clones which aid it in attacking its target with a deadly beam.",
-		shortDesc: "Hits 5 times",
+		shortDesc: "Hits 5 times.",
 		multihit: 5,
 	},
 	piercingjetstream: {
@@ -1001,7 +1001,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Water",
 		desc: "The user fires a pressurised jet of water out of its horn, causing its opponent to be critically damaged",
-		shortDesc: "Always a Critical hit",
+		shortDesc: "Always crits.",
 		critRatio: 4,
 	},
 	piercingpermafrost: {
@@ -1017,7 +1017,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ice",
 		desc: "The user drives a razor-sharp surge of eternal frost straight through the target. The biting cold tears at the foe while siphoning away their warmth, restoring the user’s HP by half of the damage dealt.",
-		shortDesc: "User will recover 50% of the HP drained",
+		shortDesc: "Heals 50% damage dealt.",
 		drain: [50, 100],
 	},
 	plasmablaze: {
@@ -1033,7 +1033,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Fire",
 		desc: "Charizard shoots a beam of electrified fire towards it's opponent",
-		shortDesc: "Fire Special; 10% chance to Paralyse your Opponent; 25% chance to raise Special Attack by 1",
+		shortDesc: "10% paralyzes target; 25% user +1 SpA.",
 		secondaries: [{"chance": 10, "status": "par"}, {"chance": 25, "self": {"boosts": {"spa": 1}}}],
 	},
 	plasmaslash: {
@@ -1049,7 +1049,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Electric",
 		desc: "The user uses its own body to attack the opponent, inflicting massive damage.",
-		shortDesc: "Electric Move; 95; 30% recoil damage to user",
+		shortDesc: "User loses 30% recoil.",
 		recoil: [30, 100],
 	},
 	playfulhaunting: {
@@ -1065,7 +1065,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ghost",
 		desc: "The user playfully spooks its opponent in a childlike manner, before fleeing back to its PokeBall.",
-		shortDesc: "Lowers the Attack and Special Attack of the opponent by two stages and then returns to its PokeBall",
+		shortDesc: "Target -2 Atk, -2 SpA; User switches out.",
 		boosts: {"atk": -2, "spa": -2},
 		selfSwitch: true,
 	},
@@ -1082,7 +1082,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dark",
 		desc: "The user unleashes a deadly, flammable gas from its flower, engulfing its opponent with flames and poison",
-		shortDesc: "15% chance to poison the opponent; 15% chance to burn the opponent",
+		shortDesc: "15% poisons target; 15% burns target.",
 		secondaries: [{"chance": 15, "status": "psn"}, {"chance": 15, "status": "brn"}],
 	},
 	primordialreckoning: {
@@ -1098,7 +1098,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dragon",
 		desc: "The user unleashes the savagery of the underworld onto itself, transforming itself into a monstrous creature capable of unimaginable horror",
-		shortDesc: "Lowers users SpDef + Def; Higher Critical Hit Ratio",
+		shortDesc: "High crit ratio; User -1 Def, -1 SpD.",
 		critRatio: 2,
 		self: {"boosts": {"def": -1, "spd": -1}},
 	},
@@ -1115,7 +1115,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Psychic",
 		desc: "The user utilises its control over to move at light speed and sap the life force from its opponent.",
-		shortDesc: "+3 Priority; Restores 35% of HP Drained",
+		shortDesc: "+3 priority; Heals 35% damage dealt.",
 		drain: [35, 100],
 	},
 	raginginferno: {
@@ -1131,7 +1131,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Fire",
 		desc: "Sacredmence unleashes all of its pent up rage in a flurry of wrapping flames.",
-		shortDesc: "20% chance to burn target; Move is forced for 2 turns, user is confused afterwards",
+		shortDesc: "Locks user for 2 turns; confuses user after.",
 		self: { volatileStatus: 'raginginferno' },
 		condition: {
 			duration: 2,
@@ -1153,7 +1153,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Water",
 		desc: "The user unleashes a torrent of knife-edged currents that carve through the battlefield in a relentless, surging cascade.",
-		shortDesc: "Always Crits",
+		shortDesc: "Always crits.",
 		critRatio: 4,
 	},
 	revenantsseverance: {
@@ -1169,7 +1169,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ghost",
 		desc: "The user utilizes its mighty blade to strike down the opposition.",
-		shortDesc: "Raises Users Speed by one",
+		shortDesc: "User +1 Spe.",
 		self: {"boosts": {"spe": 1}},
 	},
 	roaroftheinferno: {
@@ -1185,7 +1185,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Fire",
 		desc: "The user unleashes a ferocious roar, drawing molten lava from within the earth's crust to attack the opponent.",
-		shortDesc: "50% Chance to burn target",
+		shortDesc: "50% burns target.",
 		secondary: {"chance": 50, "status": "brn"},
 	},
 	rocketsredglare: {
@@ -1201,7 +1201,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Electric",
 		desc: "The user lights up the sky with its rockets before sending them to attack its opponent",
-		shortDesc: "Hits 2 times; 10% Burn Chance",
+		shortDesc: "Hits 2 times; 10% burns target.",
 		multihit: 2,
 		secondary: {"chance": 10, "status": "brn"},
 	},
@@ -1218,7 +1218,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Grass",
 		desc: "The user summons thorn-covered vines from its body and relentlessly slashes its opponent",
-		shortDesc: "Grass Physical; Lays Spikes on the field",
+		shortDesc: "Sets Spikes.",
 		sideCondition: "spikes",
 	},
 	seadragonsroar: {
@@ -1234,7 +1234,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Water",
 		desc: "Gyratina rips energy from the depths of the darkest parts of the universe to raise its attack.",
-		shortDesc: "Raises attack by 1 stage",
+		shortDesc: "User +1 Atk.",
 		self: {"boosts": {"atk": 1}},
 	},
 	searingscales: {
@@ -1250,7 +1250,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Bug",
 		desc: "The user, lighting its own wings ablaze, charges headlong into the opponent, unleashing a devastating cut upon them",
-		shortDesc: "High Critical hit Ratio; 20% chance to Burn",
+		shortDesc: "High crit ratio.",
 		critRatio: 2,
 	},
 	searingsmash: {
@@ -1266,7 +1266,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Fire",
 		desc: "The user breaks apart the ground beneath its feet, summoning magma from the earth's core, in order to quickly incinerate all enemies around it.",
-		shortDesc: "+1 Priority",
+		shortDesc: "+1 priority.",
 	},
 	shadowinfusion: {
 		num: -9078,
@@ -1281,7 +1281,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dark",
 		desc: "The user send out shadows that latch onto the opponent draining its life force.",
-		shortDesc: "Sets a leech seed",
+		shortDesc: "Leech Seeds target.",
 		volatileStatus: "leechseed",
 	},
 	shadowsurge: {
@@ -1297,7 +1297,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dark",
 		desc: "The user musters up all the dark energy it can find in it's mechanical body and shoots a volley of Shadow-Infused electrical current at it's opponent.",
-		shortDesc: "10% chance to paralyse the opponent",
+		shortDesc: "10% paralyzes target.",
 		secondary: {"chance": 10, "status": "par"},
 	},
 	shimmeringsakura: {
@@ -1313,7 +1313,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Fairy",
 		desc: "The user emits a cherry-blossom coloured beam from its body, restoring its own life force by sapping it from the opponent",
-		shortDesc: "Lowers the opponents Special Defence and Defence by one stage; Restores the users HP by the mean of the opponents Def and SpDef",
+		shortDesc: "Lowers target Def, SpD by 1; heals user.",
 		onHit(target, source) {
 			this.boost({def: -1, spd: -1}, target, source);
 			this.heal(Math.floor((target.getStat('def', false, true) + target.getStat('spd', false, true)) / 2), source);
@@ -1332,7 +1332,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Psychic",
 		desc: "The user charges at its enemies head first, ignoring all danger.",
-		shortDesc: "50% chance to lower Opponents Defence",
+		shortDesc: "50% target -1 Def.",
 		secondary: {"chance": 50, "boosts": {"def": -1}},
 	},
 	shiningflare: {
@@ -1348,7 +1348,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Fire",
 		desc: "The user concentrates its flames into a brilliant aura that damages all who it views as enemies.",
-		shortDesc: "Restores 35% of the damage it deals as HP",
+		shortDesc: "Heals 35% damage dealt.",
 		drain: [35, 100],
 	},
 	skyforgedsurge: {
@@ -1364,7 +1364,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Steel",
 		desc: "Steel Sky Surge releases a surge of steel energy into the sky, crashing down onto the opponent.",
-		shortDesc: "10% Chance to reduce Speed",
+		shortDesc: "10% target -1 Spe.",
 		secondary: {"chance": 10, "boosts": {"spe": -1}},
 	},
 	skyslicer: {
@@ -1380,7 +1380,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Steel",
 		desc: "The user speeds into its opponent at breakneck speeds; speeds so fast, that they leave a tailwind in its wake",
-		shortDesc: "Increases Speed by 1",
+		shortDesc: "User +1 Spe.",
 		self: {"boosts": {"spe": 1}},
 	},
 	slitheringserpent: {
@@ -1396,7 +1396,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "self",
 		type: "Poison",
 		desc: "The user performs a dance as though it were entranced by a snake charmer, increasing its Attack, Defense, and Speed",
-		shortDesc: "Poison-Type Move; Status; Increases the user's Attack, Defense, and Speed by one stage",
+		shortDesc: "User +1 Atk, +1 Def, +1 Spe.",
 		self: {"boosts": {"atk": 1, "def": 1, "spe": 1}},
 	},
 	smolderingsmash: {
@@ -1412,7 +1412,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Steel",
 		desc: "The user strikes its opponent with a molten-hot hammer fashioned from the skull of its nemesis.",
-		shortDesc: "Thaws the user; 30% chance to burn the user; Full design credit goes to gencky",
+		shortDesc: "30% burns user; Thaws user.",
 		secondary: {"chance": 30, "self": {"status": "brn"}},
 	},
 	soaringslash: {
@@ -1428,7 +1428,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dragon",
 		desc: "The user flies through the air and strikes down its opponents with a deadly efficiency.",
-		shortDesc: "+1 Priority",
+		shortDesc: "+1 priority.",
 	},
 	sorcererscurse: {
 		num: -9088,
@@ -1443,7 +1443,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dark",
 		desc: "The user summons dark magic from its power-imbued staff and uses it to attack its target.",
-		shortDesc: "10% Chance to burn the opponent",
+		shortDesc: "10% burns target.",
 		secondary: {"chance": 10, "status": "brn"},
 	},
 	soulsteeler: {
@@ -1459,7 +1459,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Steel",
 		desc: "The user inflicts massive damage upon its opponent, damaging them both physically and spiritually, reducing their attack by two stages",
-		shortDesc: "User takes 50% recoil damage",
+		shortDesc: "User loses 50% recoil.",
 		recoil: [50, 100],
 	},
 	spearofanguish: {
@@ -1475,7 +1475,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Steel",
 		desc: "Gardeslash lunges towards the opponent, stabbing them with it's serrated spear, unleashing massive and long-lasting damage",
-		shortDesc: "Causes a \"bleed\" effect which damages the opponent every turn for 1/12 HP until they switch",
+		shortDesc: "Target loses 1/12 max HP each turn until switch.",
 		volatileStatus: "spearofanguish",
 		condition: {
 			onResidualOrder: 9,
@@ -1495,7 +1495,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Fire",
 		desc: "The user strikes with a burning ferocity that can melt through even the toughest of metals with ease, but causes the user a great deal of pain in the process.",
-		shortDesc: "20% chance to burn target; 50% Damage recoil",
+		shortDesc: "20% burns target; User loses 50% recoil.",
 		recoil: [50, 100],
 		secondary: {"chance": 20, "status": "brn"},
 	},
@@ -1512,7 +1512,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Electric",
 		desc: "Traps the opponent in a swirling storm of electricity, inflicting devastation upon them with each turn they decide to stay in",
-		shortDesc: "Damages the opponent for 1/16 of their HP every turn they stay in; 10% chance to paralyze every turn that they stay in",
+		shortDesc: "Target loses 1/16 max HP; 10% paralysis each turn.",
 		volatileStatus: "surgingcurrents",
 		condition: {
 			onResidualOrder: 9,
@@ -1535,7 +1535,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ghost",
 		desc: "The user rends the ground with molten phantom flames, turning the battlefield into a hellish crucible of spectral magma.",
-		shortDesc: "Lowers the opponent's Speed and Special Defense by 1",
+		shortDesc: "Target -1 Spe, -1 SpD.",
 		boosts: {"spe": -1, "spd": -1},
 	},
 	terrestrialrevolt: {
@@ -1551,7 +1551,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ground",
 		desc: "Grouchomp shoots masses of terrain across the world, hurting everything in it's path. In air, or on ground.",
-		shortDesc: "Hits Flying Types",
+		shortDesc: "Hits immune targets.",
 		ignoreImmunity: true,
 	},
 	thunderousphoenix: {
@@ -1567,7 +1567,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Flying",
 		desc: "The user coats themselves in electricity before launching a strike with its beak that burns with the fiery intensity of a legendary phoenix.",
-		shortDesc: "+1 Priority; Will always Critical Hit; Player receives 30% recoil",
+		shortDesc: "+1 priority; Always crits; User loses 30% recoil.",
 		critRatio: 4,
 		recoil: [30, 100],
 	},
@@ -1584,7 +1584,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Water",
 		desc: "Kyoleki shoots a current of charged, electrical water at its opponent.",
-		shortDesc: "15% Chance to Paralyse Opponent",
+		shortDesc: "15% paralyzes target.",
 		secondary: {"chance": 15, "status": "par"},
 	},
 	tribeamcannon: {
@@ -1600,7 +1600,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Grass",
 		desc: "Using its three heads, the user unleashes a powerfully destructive beam that razes everything in its path, but leaves the user in a weakened state.",
-		shortDesc: "Lowers users Special Attack and Attack by one stage",
+		shortDesc: "User -1 Atk, -1 SpA.",
 		self: {"boosts": {"atk": -1, "spa": -1}},
 	},
 	triplejawclamp: {
@@ -1616,7 +1616,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Bug",
 		desc: "The user snaps its three gnashing maws in rapid succession, locking the foe in a crushing vice of serrated claws.",
-		shortDesc: "(Hits 3 times); Traps the opponent and damages it over time",
+		shortDesc: "Hits 3 times; Traps and damages target.",
 		multihit: 3,
 		volatileStatus: "partiallytrapped",
 	},
@@ -1633,7 +1633,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Grass",
 		desc: "Laprerra taps into the ecosystem around it, and changes it all to put itself in the advantage",
-		shortDesc: "Changes Terrain to Grassy Terrain; Changed Weather to Rain",
+		shortDesc: "Sets rain; Sets Grassy Terrain.",
 		weather: "raindance",
 		terrain: "grassyterrain",
 	},
@@ -1650,7 +1650,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Water",
 		desc: "The user summons up winds from around the world to engulf its enemies in an unrelenting vortex",
-		shortDesc: "Traps the opponent and continually damages them",
+		shortDesc: "Traps and damages target.",
 		volatileStatus: "partiallytrapped",
 	},
 	tsunamistrike: {
@@ -1666,7 +1666,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Water",
 		desc: "The user calls upon its massive strength and command of the ocean currents in order to strike its opponent with all the force of a tsunami.",
-		shortDesc: "The user calls upon its massive strength and command of the ocean currents in order to strike its opponent with all the force of a tsunami.",
+		shortDesc: "No additional effect.",
 	},
 	underworldawakened: {
 		num: -9102,
@@ -1681,7 +1681,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "self",
 		type: "Dark",
 		desc: "The user unleashes the savagery of the underworld onto itself, transforming itself into a monstrous creature capable of unimaginable horror",
-		shortDesc: "Raises Attack and Speed by 2 stages, while dropping its special defense by 1 stage; The user can no longer switch after this is used",
+		shortDesc: "User +2 Atk, +2 Spe, -1 SpD.",
 		self: {"boosts": {"atk": 2, "spe": 2, "spd": -1}},
 		volatileStatus: 'underworldawakened',
 		condition: { onTrapPokemon(pokemon) { pokemon.tryTrap(); } },
@@ -1699,7 +1699,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ghost",
 		desc: "The user binds the target with an everlasting curse, draining its foe’s spirit with a chilling wave of resentment.",
-		shortDesc: "Causes the opponent to take 1/12 of their HP as damage until they switch out",
+		shortDesc: "Target loses 1/12 max HP each turn until switch.",
 		volatileStatus: "undyinggrudge",
 		condition: {
 			onResidualOrder: 9,
@@ -1719,7 +1719,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Poison",
 		desc: "The user attacks its opponent's vital spots with its vicious blade, resulting in devastating damage and potentially fatal infections.",
-		shortDesc: "30% chance to Poison the opponent",
+		shortDesc: "30% poisons target.",
 		secondary: {"chance": 30, "status": "psn"},
 	},
 	volcanicvoltage: {
@@ -1735,7 +1735,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Electric",
 		desc: "The user combines the power of electricity and fire inside its body to fire a devastating beam that can change with the sun.",
-		shortDesc: "The user combines the power of electricity and fire inside its body to fire a devastating beam that can change with the sun.",
+		shortDesc: "Becomes Fire type in sun.",
 		onModifyType(move) {
 			if (['sunnyday', 'desolateland'].includes(this.field.effectiveWeather())) move.type = 'Fire';
 		},
@@ -1753,7 +1753,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Water",
 		desc: "The user unleashes a rifled stream of water, which becomes a spiraling vortex the second it leaves the barrel of Blastogre's cannons.",
-		shortDesc: "Always a critical Hit",
+		shortDesc: "Always crits.",
 		critRatio: 4,
 	},
 	wingsofjustice: {
@@ -1769,7 +1769,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Flying",
 		desc: "The user takes to the air before inflicting immediate and recurring damage upon its opponent in the name of justice.",
-		shortDesc: "Opponent is trapped for 2 turns, taking damage each turn",
+		shortDesc: "Traps target for 2 turns; damages each turn.",
 		volatileStatus: "wingsofjustice",
 		condition: {
 			duration: 3,
@@ -1791,7 +1791,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "self",
 		type: "Fairy",
 		desc: "The user wishes upon a dying star for the health and wellbeing of all their fellow teammates.",
-		shortDesc: "Special Status Fairy-type; Cures all teammates of status ailments, at the cost of half of its HP; Adds a wish",
+		shortDesc: "Cures party status; user loses 1/2 HP; sets Wish.",
 		slotCondition: 'Wishful Grace',
 		condition: {
 			onStart(pokemon, source) {
@@ -1826,7 +1826,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Ghost",
 		desc: "The user finds their inner ghastly and fiery rage, unleashing their pure anger upon their unfortunent oppoent",
-		shortDesc: "15% chance to burn the user",
+		shortDesc: "15% burns user.",
 		secondary: {"chance": 15, "self": {"status": "brn"}},
 	},
 	wyvernswrath: {
@@ -1842,7 +1842,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		target: "normal",
 		type: "Dragon",
 		desc: "The user unleashes a devastating blast of energy at its opponent, inflicting damage at a cellular level.",
-		shortDesc: "Ignores the opponent's Stat Increases",
+		shortDesc: "Ignores defensive boosts.",
 		ignoreDefensive: true,
 	},
 };

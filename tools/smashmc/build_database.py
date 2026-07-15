@@ -11,7 +11,10 @@ import sys
 from pathlib import Path
 from typing import Any
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
 from tools.smashmc.move_effects import battle_effect, raw_effect
+from tools.smashmc.move_descriptions import compact_move_short_desc
 
 
 STAT_KEYS = ("hp", "atk", "def", "spa", "spd", "spe")
@@ -348,6 +351,7 @@ def parse_move_metadata(raw: dict[str, Any], move: str) -> dict[str, Any]:
         "metadataComplete": bool((heading or description) and (power_match or category == "Status") and type_match),
     }
     parsed["battle"] = battle_effect(move_id)
+    parsed["shortDesc"] = compact_move_short_desc(parsed)
     return parsed
 
 
