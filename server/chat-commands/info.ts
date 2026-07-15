@@ -602,10 +602,11 @@ export const commands: Chat.ChatCommands = {
 			}
 		}
 		let newTargets = dex.dataSearch(target);
-		if (!newTargets?.length && dex.currentMod !== 'gen9smashmc') {
+		if (dex.currentMod !== 'gen9smashmc') {
 			const smashDex = Dex.mod('gen9smashmc');
-			newTargets = smashDex.dataSearch(target);
-			if (newTargets?.length) {
+			const smashTargets = smashDex.dataSearch(target);
+			if (smashTargets?.length && (!newTargets?.length || (newTargets[0].isInexact && !smashTargets[0].isInexact))) {
+				newTargets = smashTargets;
 				dex = smashDex;
 				format = Dex.formats.get('gen9smashmc');
 			}
