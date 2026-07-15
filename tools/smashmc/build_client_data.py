@@ -179,15 +179,31 @@ def teambuilder_learnsets_overlay(entries: list[dict[str, Any]]) -> dict[str, An
     return overlay
 
 
+def teambuilder_signature_moves_overlay(entries: list[dict[str, Any]]) -> dict[str, list[str]]:
+    overlay: dict[str, list[str]] = {}
+    for entry in entries:
+        signature_moves: list[str] = []
+        learnset_ids = {to_id(move) for move in entry.get("moves", [])}
+        for move in entry.get("customMoves", []):
+            move_id = str(move.get("id", "")) or to_id(move.get("name", ""))
+            if move_id and move_id in learnset_ids and move_id not in signature_moves:
+                signature_moves.append(move_id)
+        if signature_moves:
+            overlay[entry["id"]] = signature_moves
+    return overlay
+
+
 def teambuilder_overlay(entries: list[dict[str, Any]]) -> str:
     ids = [entry["id"] for entry in entries]
     tiers = {entry["id"]: display_tier(entry) for entry in entries}
     learnsets = teambuilder_learnsets_overlay(entries)
+    signature_moves = teambuilder_signature_moves_overlay(entries)
     return "\n".join([
         f"var smashPokemonIds = {js(ids)};",
         f"var smashPokemonTiers = {js(tiers)};",
         f"var smashTierOrder = {js(SMASH_TIER_ORDER)};",
         f"var smashLearnsets = {js(learnsets)};",
+        f"var smashSignatureMoves = {js(signature_moves)};",
         "var smashTables = [exports.BattleTeambuilderTable, exports.BattleTeambuilderTable.gen9natdex];",
         "for (const table of smashTables) {",
         "\tif (!table) continue;",
@@ -204,6 +220,7 @@ def teambuilder_overlay(entries: list[dict[str, Any]]) -> str:
         "\t}",
         "\ttable.smashPokemonIds = smashPokemonIds;",
         "\ttable.smashPokemonTiers = smashPokemonTiers;",
+        "\ttable.smashSignatureMoves = smashSignatureMoves;",
         "\tvar existing = new Set(table.tiers.map(row => typeof row === 'string' ? row : row[1]));",
         "\tvar rows = [];",
         "\tfor (const tier of smashTierOrder) {",
