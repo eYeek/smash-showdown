@@ -585,7 +585,7 @@ export const commands: Chat.ChatCommands = {
 		const gen = parseInt(cmd.substr(-1));
 		if (gen) target += `, gen${gen}`;
 
-		const { dex, format, targets } = this.splitFormat(target, true, true);
+		let { dex, format, targets } = this.splitFormat(target, true, true);
 
 		const prefix = `|c|${user.getIdentity(room)}|/raw `;
 		let buffer = '';
@@ -601,7 +601,15 @@ export const commands: Chat.ChatCommands = {
 				}
 			}
 		}
-		const newTargets = dex.dataSearch(target);
+		let newTargets = dex.dataSearch(target);
+		if (!newTargets?.length && dex.currentMod !== 'gen9smashmc') {
+			const smashDex = Dex.mod('gen9smashmc');
+			newTargets = smashDex.dataSearch(target);
+			if (newTargets?.length) {
+				dex = smashDex;
+				format = Dex.formats.get('gen9smashmc');
+			}
+		}
 		const showDetails = (cmd.startsWith('dt') || cmd === 'details');
 		if (!newTargets?.length) {
 			throw new Chat.ErrorMessage(`'${target}' doesn't match any Pok\u00e9mon, item, move, ability or nature${Dex.gen > dex.gen ? ` in Gen ${dex.gen}` : ""}. (Check your spelling?)`);
