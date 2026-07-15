@@ -2443,7 +2443,7 @@ export const Chat = new class {
 		buf += '<span class="col typecol">';
 		if (species.types) {
 			for (const type of species.types) {
-				buf += `<span class="typeicon typeicon-${Utils.escapeHTML(type)}">${Utils.escapeHTML(type)}</span>`;
+				buf += `<img src="https://play.pokemonshowdown.com/sprites/types/${encodeURIComponent(type)}.png" alt="${type}" height="14" width="32">`;
 			}
 		}
 		buf += '</span> ';
