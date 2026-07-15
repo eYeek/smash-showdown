@@ -2041,6 +2041,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		let uselessMoves: SearchRow[] = [];
 		const smashPokemonIds = new Set((BattleTeambuilderTable.smashPokemonIds || []) as string[]);
 		const isSmashPokemon = smashPokemonIds.has(species.id);
+		let hasUsefulMoveHeader = false;
 		const signatureMoves = ((BattleTeambuilderTable.smashSignatureMoves?.[species.id] || []) as string[])
 			.filter(id => moves.includes(id));
 		const signatureMoveSet = new Set(signatureMoves);
@@ -2050,9 +2051,12 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		}
 		for (const id of moves) {
 			if (signatureMoveSet.has(id)) continue;
-			const isUsable = isSmashPokemon || this.moveIsNotUseless(id as ID, species, moves, this.set);
+			const isUsable = this.moveIsNotUseless(id as ID, species, moves, this.set);
 			if (isUsable) {
-				if (!usableMoves.length) usableMoves.push(['header', "Moves"]);
+				if (!hasUsefulMoveHeader) {
+					usableMoves.push(['header', isSmashPokemon ? "Useful moves" : "Moves"]);
+					hasUsefulMoveHeader = true;
+				}
 				usableMoves.push(['move', id as ID]);
 			} else {
 				if (!uselessMoves.length) uselessMoves.push(['header', "Usually useless moves"]);

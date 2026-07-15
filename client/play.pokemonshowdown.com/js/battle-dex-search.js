@@ -2013,6 +2013,7 @@ var usableMoves=[];
 var uselessMoves=[];
 var smashPokemonIds=new Set(BattleTeambuilderTable.smashPokemonIds||[]);
 var isSmashPokemon=smashPokemonIds.has(species.id);
+var hasUsefulMoveHeader=false;
 var signatureMoves=(BattleTeambuilderTable.smashSignatureMoves&&BattleTeambuilderTable.smashSignatureMoves[species.id]||[]).filter(function(id){return moves.includes(id);});
 var signatureMoveSet=new Set(signatureMoves);
 if(signatureMoves.length){
@@ -2023,9 +2024,12 @@ usableMoves.push(['move',signatureMove]);
 }for(var _i25=0,_moves2=
 moves;_i25<_moves2.length;_i25++){var _id6=_moves2[_i25];
 if(signatureMoveSet.has(_id6))continue;
-var isUsable=isSmashPokemon||this.moveIsNotUseless(_id6,species,moves,this.set);
+var isUsable=this.moveIsNotUseless(_id6,species,moves,this.set);
 if(isUsable){
-if(!usableMoves.length)usableMoves.push(['header',"Moves"]);
+if(!hasUsefulMoveHeader){
+usableMoves.push(['header',isSmashPokemon?"Useful moves":"Moves"]);
+hasUsefulMoveHeader=true;
+}
 usableMoves.push(['move',_id6]);
 }else{
 if(!uselessMoves.length)uselessMoves.push(['header',"Usually useless moves"]);
