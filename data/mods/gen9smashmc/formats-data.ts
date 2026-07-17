@@ -113,11 +113,11 @@ export const FormatsData: import('../../../sim/dex-species').ModdedSpeciesFormat
 	},
 	espeonmega: {
 		isNonstandard: "Custom",
-		tier: "OU",
+		tier: "AG",
 	},
 	flareonmega: {
 		isNonstandard: "Custom",
-		tier: "OU",
+		tier: "AG",
 	},
 	fleetingmirage: {
 		isNonstandard: "Custom",
@@ -149,7 +149,7 @@ export const FormatsData: import('../../../sim/dex-species').ModdedSpeciesFormat
 	},
 	glaceonmega: {
 		isNonstandard: "Custom",
-		tier: "OU",
+		tier: "AG",
 	},
 	grimmluxe: {
 		isNonstandard: "Custom",
@@ -185,7 +185,7 @@ export const FormatsData: import('../../../sim/dex-species').ModdedSpeciesFormat
 	},
 	hyzor: {
 		isNonstandard: "Custom",
-		tier: "OU",
+		tier: "Uber",
 	},
 	incineroarunbound: {
 		isNonstandard: "Custom",
@@ -245,7 +245,7 @@ export const FormatsData: import('../../../sim/dex-species').ModdedSpeciesFormat
 	},
 	jolteonmega: {
 		isNonstandard: "Custom",
-		tier: "OU",
+		tier: "AG",
 	},
 	kingdoof: {
 		isNonstandard: "Custom",
@@ -265,7 +265,7 @@ export const FormatsData: import('../../../sim/dex-species').ModdedSpeciesFormat
 	},
 	leafeonmega: {
 		isNonstandard: "Custom",
-		tier: "OU",
+		tier: "AG",
 	},
 	lucarina: {
 		isNonstandard: "Custom",
@@ -417,7 +417,7 @@ export const FormatsData: import('../../../sim/dex-species').ModdedSpeciesFormat
 	},
 	sylveonmega: {
 		isNonstandard: "Custom",
-		tier: "OU",
+		tier: "AG",
 	},
 	talorus: {
 		isNonstandard: "Custom",
@@ -437,11 +437,11 @@ export const FormatsData: import('../../../sim/dex-species').ModdedSpeciesFormat
 	},
 	umbreonmega: {
 		isNonstandard: "Custom",
-		tier: "OU",
+		tier: "AG",
 	},
 	vaporeonmega: {
 		isNonstandard: "Custom",
-		tier: "OU",
+		tier: "AG",
 	},
 	venudoom: {
 		isNonstandard: "Custom",

@@ -85,6 +85,9 @@ DISPLAY_TIERS = {
     "AG": "Smash AG",
     "Unreleased": "Smash Unranked",
 }
+FORCED_TIERS = {
+    "hyzor": "Uber",
+}
 
 
 def to_id(text: str) -> str:
@@ -438,8 +441,8 @@ def normalize_entry(raw: dict[str, Any], learnsets: dict[str, Any]) -> dict[str,
     if not source_name:
         raise ValueError("A Pokemon entry is missing name.")
     source_id = to_id(source_name)
-    tier = tier_from_entry(raw) or "Unreleased"
     is_mega = is_mega_form_name(source_name)
+    tier = "AG" if is_mega else FORCED_TIERS.get(source_id, tier_from_entry(raw) or "Unreleased")
     base_species = mega_base_name(source_name) if is_mega else ""
     name = f"{base_species}-Mega" if is_mega else source_name
     pokemon_id = to_id(name)
@@ -510,7 +513,7 @@ def missing_tier_names(raw_entries: list[dict[str, Any]]) -> list[str]:
     missing: list[str] = []
     for raw in raw_entries:
         name = entry_name(raw)
-        if name and not tier_from_entry(raw):
+        if name and not is_mega_form_name(name) and to_id(name) not in FORCED_TIERS and not tier_from_entry(raw):
             missing.append(name)
     return missing
 

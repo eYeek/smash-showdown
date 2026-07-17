@@ -4458,8 +4458,8 @@
         "zenheadbutt"
       ],
       "customMoves": [],
-      "tier": "OU",
-      "displayTier": "Smash OU",
+      "tier": "AG",
+      "displayTier": "Smash AG",
       "learnsetSource": "minecraft",
       "items": [
         "Espeonite"
@@ -4588,8 +4588,8 @@
         "zapcannon"
       ],
       "customMoves": [],
-      "tier": "OU",
-      "displayTier": "Smash OU",
+      "tier": "AG",
+      "displayTier": "Smash AG",
       "learnsetSource": "minecraft",
       "items": [
         "Flareonite"
@@ -6079,8 +6079,8 @@
         "workup"
       ],
       "customMoves": [],
-      "tier": "OU",
-      "displayTier": "Smash OU",
+      "tier": "AG",
+      "displayTier": "Smash AG",
       "learnsetSource": "minecraft",
       "items": [
         "Glaceonite"
@@ -7633,8 +7633,8 @@
           }
         }
       ],
-      "tier": "OU",
-      "displayTier": "Smash OU",
+      "tier": "Uber",
+      "displayTier": "Smash Ubers",
       "learnsetSource": "minecraft",
       "items": [],
       "spritePath": "data/smashmc/assets/sprites/hyzor/1389985201215766689-0-image.png",
@@ -9804,8 +9804,8 @@
         "zapcannon"
       ],
       "customMoves": [],
-      "tier": "OU",
-      "displayTier": "Smash OU",
+      "tier": "AG",
+      "displayTier": "Smash AG",
       "learnsetSource": "minecraft",
       "items": [
         "Jolteonite"
@@ -10514,8 +10514,8 @@
         "xscissor"
       ],
       "customMoves": [],
-      "tier": "OU",
-      "displayTier": "Smash OU",
+      "tier": "AG",
+      "displayTier": "Smash AG",
       "learnsetSource": "minecraft",
       "items": [
         "Leafeonite"
@@ -17318,8 +17318,8 @@
         "workup"
       ],
       "customMoves": [],
-      "tier": "OU",
-      "displayTier": "Smash OU",
+      "tier": "AG",
+      "displayTier": "Smash AG",
       "learnsetSource": "minecraft",
       "items": [
         "Sylveonite"
@@ -18055,8 +18055,8 @@
         "zapcannon"
       ],
       "customMoves": [],
-      "tier": "OU",
-      "displayTier": "Smash OU",
+      "tier": "AG",
+      "displayTier": "Smash AG",
       "learnsetSource": "minecraft",
       "items": [
         "Umbreonite"
@@ -18188,8 +18188,8 @@
         "yawn"
       ],
       "customMoves": [],
-      "tier": "OU",
-      "displayTier": "Smash OU",
+      "tier": "AG",
+      "displayTier": "Smash AG",
       "learnsetSource": "minecraft",
       "items": [
         "Vaporeonite"
