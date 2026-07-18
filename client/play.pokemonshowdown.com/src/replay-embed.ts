@@ -21,6 +21,8 @@ import { BattleSound } from "./battle-sound";
 
 window.exports = window;
 
+const RESOURCE_ORIGIN = window.location.origin || 'https://play.pokemonshowdown.com';
+
 function linkStyle(url: string) {
 	const linkEl = document.createElement('link');
 	linkEl.rel = 'stylesheet';
@@ -33,27 +35,27 @@ function requireScript(url: string) {
 	document.head.appendChild(scriptEl);
 }
 
-linkStyle('https://play.pokemonshowdown.com/style/font-awesome.css?');
-linkStyle('https://play.pokemonshowdown.com/style/battle.css?a7');
-linkStyle('https://play.pokemonshowdown.com/style/replay.css?a7');
-linkStyle('https://play.pokemonshowdown.com/style/utilichart.css?a7');
+linkStyle(`${RESOURCE_ORIGIN}/style/font-awesome.css?`);
+linkStyle(`${RESOURCE_ORIGIN}/style/battle.css?a7`);
+linkStyle(`${RESOURCE_ORIGIN}/style/replay.css?a7`);
+linkStyle(`${RESOURCE_ORIGIN}/style/utilichart.css?a7`);
 
-requireScript('https://play.pokemonshowdown.com/js/lib/ps-polyfill.js');
-requireScript('https://play.pokemonshowdown.com/config/config.js?a7');
-requireScript('https://play.pokemonshowdown.com/js/lib/jquery-1.11.0.min.js');
-requireScript('https://play.pokemonshowdown.com/js/lib/html-sanitizer-minified.js');
-requireScript('https://play.pokemonshowdown.com/js/battle-sound.js');
-requireScript('https://play.pokemonshowdown.com/js/battledata.js?a7');
-requireScript('https://play.pokemonshowdown.com/data/pokedex-mini.js?a7');
-requireScript('https://play.pokemonshowdown.com/data/pokedex-mini-bw.js?a7');
-requireScript('https://play.pokemonshowdown.com/data/graphics.js?a7');
-requireScript('https://play.pokemonshowdown.com/data/pokedex.js?a7');
-requireScript('https://play.pokemonshowdown.com/data/moves.js?a7');
-requireScript('https://play.pokemonshowdown.com/data/abilities.js?a7');
-requireScript('https://play.pokemonshowdown.com/data/items.js?a7');
-requireScript('https://play.pokemonshowdown.com/data/teambuilder-tables.js?a7');
-requireScript('https://play.pokemonshowdown.com/js/battle-tooltips.js?a7');
-requireScript('https://play.pokemonshowdown.com/js/battle.js?a7');
+requireScript(`${RESOURCE_ORIGIN}/js/lib/ps-polyfill.js`);
+requireScript(`${RESOURCE_ORIGIN}/config/config.js?a7`);
+requireScript(`${RESOURCE_ORIGIN}/js/lib/jquery-1.11.0.min.js`);
+requireScript(`${RESOURCE_ORIGIN}/js/lib/html-sanitizer-minified.js`);
+requireScript(`${RESOURCE_ORIGIN}/js/battle-sound.js`);
+requireScript(`${RESOURCE_ORIGIN}/js/battledata.js?a7`);
+requireScript(`${RESOURCE_ORIGIN}/data/pokedex-mini.js?a7`);
+requireScript(`${RESOURCE_ORIGIN}/data/pokedex-mini-bw.js?a7`);
+requireScript(`${RESOURCE_ORIGIN}/data/graphics.js?a7`);
+requireScript(`${RESOURCE_ORIGIN}/data/pokedex.js?a7`);
+requireScript(`${RESOURCE_ORIGIN}/data/moves.js?a7`);
+requireScript(`${RESOURCE_ORIGIN}/data/abilities.js?a7`);
+requireScript(`${RESOURCE_ORIGIN}/data/items.js?a7`);
+requireScript(`${RESOURCE_ORIGIN}/data/teambuilder-tables.js?a7`);
+requireScript(`${RESOURCE_ORIGIN}/js/battle-tooltips.js?a7`);
+requireScript(`${RESOURCE_ORIGIN}/js/battle.js?a7`);
 
 const Replays = {
 	$el: null! as JQuery,

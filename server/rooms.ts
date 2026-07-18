@@ -2108,6 +2108,31 @@ export class GameRoom extends BasicRoom {
 			return;
 		}
 
+		if (Config.localreplays) {
+			const idWithServer = Config.serverid === 'showdown' ? id : `${Config.serverid}-${id}`;
+			const replay = {
+				id: idWithServer,
+				log,
+				players: battle.players.map(p => p.name),
+				format: format.name,
+				rating: Math.round(rating || 0) || null,
+				private: hidden,
+				password,
+				inputlog: battle.inputLog?.join('\n') || null,
+				uploadtime: Math.trunc(Date.now() / 1000),
+			};
+			const file = FS(`logs/replays/${idWithServer}.json`);
+			await file.parentDir().mkdirp();
+			await file.write(JSON.stringify(replay));
+			const url = `https://${Config.routes.replays}/${idWithServer}`;
+			connection?.popup(
+				`|html|<p>Your replay has been uploaded! It's available at:</p><p> ` +
+				`<a class="no-panel-intercept" href="${url}" target="_blank">${url}</a> ` +
+				`<copytext value="${url}">Copy</copytext>`
+			);
+			return;
+		}
+
 		// Otherwise, (we're probably a side server), upload the replay through LoginServer
 
 		const [result] = await LoginServer.request('addreplay', {
