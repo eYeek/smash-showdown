@@ -36,6 +36,22 @@ exports.requireregisterednames = true;
 exports.customhttpresponse = function customHttpResponse(req, res) {
 	if (!req.url) return false;
 
+	if (req.url.startsWith('/interstice?')) {
+		const params = new URLSearchParams(req.url.slice(req.url.indexOf('?') + 1));
+		const uri = params.get('uri');
+		if (uri) {
+			res.writeHead(302, {
+				Location: uri,
+				'Cache-Control': 'no-store',
+			});
+			res.end();
+			return true;
+		}
+		res.writeHead(400, {'Content-Type': 'text/plain; charset=utf-8'});
+		res.end('Missing redirect URL.');
+		return true;
+	}
+
 	const replayMatch = req.url.match(/^\/replays(?:\/([A-Za-z0-9-]+)(?:\.json)?)?(?:[?#].*)?$/);
 	if (replayMatch) {
 		const replayid = replayMatch[1]?.toLowerCase();
