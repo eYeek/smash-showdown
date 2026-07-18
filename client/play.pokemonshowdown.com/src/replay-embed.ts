@@ -31,6 +31,7 @@ function linkStyle(url: string) {
 }
 function requireScript(url: string) {
 	const scriptEl = document.createElement('script');
+	scriptEl.async = false;
 	scriptEl.src = url;
 	document.head.appendChild(scriptEl);
 }
