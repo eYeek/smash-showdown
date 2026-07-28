@@ -732,7 +732,10 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			if (!format) format = 'ou' as ID;
 			this.isDoubles = format.includes('doubles');
 		}
-		if (format === 'sou' || format === 'subers' || format === 'smashou' || format === 'smashubers') {
+		if (
+			format === 'sou' || format === 'subers' || format === 'suuu' ||
+			format === 'smashou' || format === 'smashubers' || format === 'smashubersuu'
+		) {
 			this.formatType = 'natdex';
 		}
 		if (format.includes('doubles') && this.dex.gen > 4 && !this.formatType) {
@@ -946,10 +949,11 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (this.formatType === 'metronome') {
 			return pokemon.num >= 0 ? String(pokemon.num) : pokemon.tier;
 		}
+		const format = this.format.replace(/^gen\d+/, "");
 		const smashFormats = ["sou", "subers", "suuu", "sag", "smashou", "smashubers", "smashubersuu", "smashag", "smashmc"];
-		const isSmashUbersUU = this.format === "suuu" || this.format === "smashubersuu";
+		const isSmashUbersUU = format === "suuu" || format === "smashubersuu";
 		const displayTier = (tier: string) => {
-			if (!smashFormats.includes(this.format)) {
+			if (!smashFormats.includes(format)) {
 				return tier;
 			}
 			if (tier === "Smash UbersUU") return "SUUU";
@@ -958,7 +962,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			if (tier === "Smash OU" || tier === "Smash UU") return "SOU";
 			return tier;
 		};
-		if (smashFormats.includes(this.format)) {
+		if (smashFormats.includes(format)) {
 			const smashTiers = BattleTeambuilderTable.smashPokemonTiers || {};
 			if (pokemon.id in smashTiers) {
 				if (isSmashUbersUU && SMASH_UBERS_UU_SPECIES.has(pokemon.id)) return "SUUU";
@@ -1094,6 +1098,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 	getBaseResults(): SearchRow[] {
 		const format = this.format;
 		if (!format) return this.getDefaultResults();
+		const baseFormat = format.replace(/^gen\d+/, "");
 		const isVGCOrBS = format.startsWith('battlespot') || format.startsWith('bss') ||
 			format.startsWith('battlestadium') || format.startsWith('vgc');
 		const isHackmons = format.includes('hackmons') || format.endsWith('bh');
@@ -1180,13 +1185,13 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		let tierSet: SearchRow[] = table.tierSet;
 		let slices: { [k: string]: number } = table.formatSlices;
 		if (
-			format === 'sou' || format === 'subers' || format === 'suuu' || format === 'sag' ||
-			format === 'smashou' || format === 'smashubers' || format === 'smashubersuu' ||
-			format === 'smashag' || format === 'smashmc'
+			baseFormat === 'sou' || baseFormat === 'subers' || baseFormat === 'suuu' || baseFormat === 'sag' ||
+			baseFormat === 'smashou' || baseFormat === 'smashubers' || baseFormat === 'smashubersuu' ||
+			baseFormat === 'smashag' || baseFormat === 'smashmc'
 		) {
-			const isSmashOU = format === 'sou' || format === 'smashou';
-			const isSmashUbersUU = format === 'suuu' || format === 'smashubersuu';
-			const isSmashAG = format === 'sag' || format === 'smashag' || format === 'smashmc';
+			const isSmashOU = baseFormat === 'sou' || baseFormat === 'smashou';
+			const isSmashUbersUU = baseFormat === 'suuu' || baseFormat === 'smashubersuu';
+			const isSmashAG = baseFormat === 'sag' || baseFormat === 'smashag' || baseFormat === 'smashmc';
 			const smashTiers = BattleTeambuilderTable.smashPokemonTiers || table.smashPokemonTiers || {};
 			const vanillaRows = tierSet.filter(([type, id]) => {
 				if (type === 'header') {
