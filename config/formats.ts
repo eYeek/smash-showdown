@@ -42,6 +42,15 @@ const SMASH_SPECIES_MOVE_BANS: {[speciesid: string]: {[moveid: string]: string}}
 	jolteonmega: {risingvoltage: "Rising Voltage"},
 };
 
+const SMASH_UBERS_UU_SPECIES = new Set([
+	"arceoxys", "armaredge", "calamitoushive", "chillingfang", "cosmicvirus",
+	"darphox", "depthfear", "diancette", "dragoninja", "ephemeralchaos",
+	"giranitar", "grimmluxe", "gyratina", "hydratina", "hyzor",
+	"ironabyss", "ironeclipse", "ironnightmare", "irontorrent", "lucartres",
+	"marshmetal", "mewton", "mewtwonite", "moltreon", "reshiray",
+	"sacredmence", "skullkia", "stormleviathan", "suicuno", "zekebi",
+]);
+
 function validateSmashSpeciesMoveBans(team: any[], dex: any) {
 	const problems = [];
 	for (const set of team) {
@@ -54,6 +63,19 @@ function validateSmashSpeciesMoveBans(team: any[], dex: any) {
 			const moveid = dex.moves.get(moveName).id;
 			if (!bannedMoves[moveid]) continue;
 			problems.push(`${species.name} is not allowed to have ${bannedMoves[moveid]}.`);
+		}
+	}
+	return problems;
+}
+
+function validateSmashNatDexOUPool(team: any[], dex: any) {
+	const problems = [];
+	for (const set of team) {
+		if (getSmashCustomSpecies(set, dex)) continue;
+
+		const species = dex.species.get(set.species);
+		if (["Uber", "AG"].includes(species.tier)) {
+			problems.push(`${species.name} is not allowed in Smash UbersUU.`);
 		}
 	}
 	return problems;
@@ -78,6 +100,20 @@ function countSmashCustoms(formatName: string, team: any[], dex: any) {
 		}
 		if (custom.length > 1) {
 			problems.push(`Smash OU allows only one custom SmashMC OU Pokemon. Your team has ${custom.length}.`);
+		}
+	} else if (formatName === "SUUU") {
+		const illegalCustom = custom.filter(species => {
+			return !["OU", "UU"].includes(species.tier) && !SMASH_UBERS_UU_SPECIES.has(species.id);
+		});
+		if (illegalCustom.length) {
+			problems.push(
+				`Smash UbersUU only allows one custom SmashMC OU or Smash UbersUU Pokemon. ` +
+				`${illegalCustom.map(species => species.name).join(", ")} ` +
+				`${illegalCustom.length === 1 ? "is" : "are"} not Smash UbersUU legal.`
+			);
+		}
+		if (custom.length > 1) {
+			problems.push(`Smash UbersUU allows only one custom SmashMC Pokemon. Your team has ${custom.length}.`);
 		}
 	} else {
 		const customUbers = [];
@@ -112,6 +148,14 @@ function countSmashCustoms(formatName: string, team: any[], dex: any) {
 function validateSOUTeam(this: any, team: any[], options: any) {
 	const problems = this.baseValidateTeam(team, options) || [];
 	problems.push(...countSmashCustoms("SOU", team, this.dex));
+	problems.push(...validateSmashSpeciesMoveBans(team, this.dex));
+	return problems.length ? problems : null;
+}
+
+function validateSUUUTeam(this: any, team: any[], options: any) {
+	const problems = this.baseValidateTeam(team, options) || [];
+	problems.push(...validateSmashNatDexOUPool(team, this.dex));
+	problems.push(...countSmashCustoms("SUUU", team, this.dex));
 	problems.push(...validateSmashSpeciesMoveBans(team, this.dex));
 	return problems.length ? problems : null;
 }
@@ -164,6 +208,20 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		validateTeam: validateSUbersTeam,
 	},
 	{
+		name: "[Gen 9] Smash UbersUU",
+		desc: "National Dex OU with one custom SmashMC OU or Smash UbersUU Pokemon allowed.",
+		mod: "gen9smashmc",
+		searchShow: true,
+		challengeShow: true,
+		tournamentShow: true,
+		ruleset: ["Standard NatDex", "Terastal Clause", "+Custom"],
+		banlist: [
+			"Arena Trap", "Moody", "Power Construct", "Shadow Tag", "King's Rock",
+			"Quick Claw", "Razor Fang", "Assist", "Baton Pass", "Last Respects", "Shed Tail",
+		],
+		validateTeam: validateSUUUTeam,
+	},
+	{
 		name: "[Gen 9] SOU",
 		desc: "Legacy alias for Smash OU.",
 		mod: "gen9smashmc",
@@ -187,6 +245,20 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		ruleset: ["Standard NatDex", "!Evasion Clause", "Evasion Moves Clause", "Evasion Items Clause", "Mega Rayquaza Clause", "Terastal Clause", "+Custom"],
 		banlist: ["ND AG", "Shedinja", "Assist", "Baton Pass"],
 		validateTeam: validateSUbersTeam,
+	},
+	{
+		name: "[Gen 9] SUUU",
+		desc: "Legacy alias for Smash UbersUU.",
+		mod: "gen9smashmc",
+		searchShow: false,
+		challengeShow: false,
+		tournamentShow: false,
+		ruleset: ["Standard NatDex", "Terastal Clause", "+Custom"],
+		banlist: [
+			"Arena Trap", "Moody", "Power Construct", "Shadow Tag", "King's Rock",
+			"Quick Claw", "Razor Fang", "Assist", "Baton Pass", "Last Respects", "Shed Tail",
+		],
+		validateTeam: validateSUUUTeam,
 	},
 	{
 		name: "[Gen 9] Smash AG",

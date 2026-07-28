@@ -120,7 +120,7 @@ def format_list_overlay() -> list[dict[str, Any]]:
             "tournamentShow": True,
             "ruleset": ["Standard NatDex", "Terastal Clause", "+Custom"],
             "banlist": [
-                "ND Uber", "ND AG", "Arena Trap", "Moody", "Power Construct", "Shadow Tag",
+                "Arena Trap", "Moody", "Power Construct", "Shadow Tag",
                 "King's Rock", "Quick Claw", "Razor Fang", "Assist", "Baton Pass",
                 "Last Respects", "Shed Tail",
             ],
@@ -137,6 +137,20 @@ def format_list_overlay() -> list[dict[str, Any]]:
                 "Evasion Items Clause", "Mega Rayquaza Clause", "Terastal Clause", "+Custom",
             ],
             "banlist": ["ND AG", "Shedinja", "Assist", "Baton Pass"],
+        },
+        {
+            "name": "[Gen 9] Smash UbersUU",
+            "desc": "National Dex OU with one custom SmashMC OU or Smash UbersUU Pokemon allowed.",
+            "mod": "gen9smashmc",
+            "searchShow": True,
+            "challengeShow": True,
+            "tournamentShow": True,
+            "ruleset": ["Standard NatDex", "Terastal Clause", "+Custom"],
+            "banlist": [
+                "ND Uber", "ND AG", "Arena Trap", "Moody", "Power Construct", "Shadow Tag",
+                "King's Rock", "Quick Claw", "Razor Fang", "Assist", "Baton Pass",
+                "Last Respects", "Shed Tail",
+            ],
         },
         {
             "name": "[Gen 9] Smash AG",
